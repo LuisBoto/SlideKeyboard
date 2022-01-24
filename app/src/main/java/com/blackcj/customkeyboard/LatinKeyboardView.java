@@ -25,6 +25,7 @@ import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodSubtype;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class LatinKeyboardView extends KeyboardView {
     static final int KEYCODE_OPTIONS = -100;
     // TODO: Move this into android.inputmethodservice.Keyboard
     static final int KEYCODE_LANGUAGE_SWITCH = -101;
+    private Key pressedKey;
+    private int swipeDirection;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -41,6 +44,31 @@ public class LatinKeyboardView extends KeyboardView {
 
     public LatinKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent me) {
+        int x = (int)me.getX();
+        int y = (int)me.getY();
+        int action = me.getAction();
+        this.pressedKey = getKey(x, y);
+        this.swipeDirection = action;
+        return super.onTouchEvent(me);
+    }
+
+    public int getPressedKeyCode() {
+        return this.pressedKey.codes[0];
+    }
+
+    public int getSwipeDirection() {
+        return this.swipeDirection;
+    }
+
+    private Key getKey(int x, int y){
+        for(Keyboard.Key k:getKeyboard().getKeys())
+            if((x>=k.x && x<=k.x+ k.width) && (y>=k.y && y<=k.y + k.height))
+                return k;
+        return null;
     }
 
     @Override

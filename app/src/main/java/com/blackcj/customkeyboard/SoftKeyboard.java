@@ -27,6 +27,7 @@ import android.text.method.MetaKeyKeyListener;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
@@ -284,7 +285,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 }
                 break;
             default:
-                handleCharacter(primaryCode);
+                handleSwipedCharacter();
         }
     }
 
@@ -336,10 +337,12 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         }
     }
     
-    private void handleCharacter(int primaryCode) {
+    private void handleSwipedCharacter() {
+        int primaryCode = mInputView.getPressedKeyCode();
         if (isInputViewShown() && mInputView.isShifted())
                 primaryCode = Character.toUpperCase(primaryCode);
-        getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
+        if (mInputView.getSwipeDirection() == MotionEvent.ACTION_UP)
+            getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
     }
 
     private void handleClose() {
@@ -385,12 +388,12 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     @Override
     public void swipeLeft() {
         Log.d("SoftKeyboard", "Swipe left");
-        handleBackspace();
+        //handleBackspace();
     }
 
     @Override
     public void swipeDown() {
-        handleClose();
+        //handleClose();
     }
 
     @Override
