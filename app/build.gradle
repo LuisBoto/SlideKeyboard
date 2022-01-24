@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.2"
 
     defaultConfig {
@@ -17,5 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dependencies {
+        def appcompat_version = "1.4.1"
+        implementation "androidx.appcompat:appcompat:$appcompat_version"
+        implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
+    }
+
 }
 
