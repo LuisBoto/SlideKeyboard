@@ -3,7 +3,17 @@ package com.blackcj.customkeyboard;
 public enum Keys {
 
     TOP_LEFT(" ", " ", " "," ", "1"),
-    TOP_CENTER("a","b","c","d","2");
+    TOP_CENTER("a","b","c","ç","2"),
+    TOP_RIGHT("d","e","f"," ","3"),
+    CENTER_LEFT("g", "h", "i", " ", "4"),
+    CENTER_CENTER("j","k","l"," ", "5"),
+    CENTER_RIGHT("m","n","o","ñ","6"),
+    BOTTOM_LEFT("p","q","r","s","7"),
+    BOTTOM_CENTER("t","u","v"," ","8"),
+    BOTTOM_RIGHT("w","x","y","z","9"),
+    SPECIAL_LEFT("-","/","_","@","*"),
+    SPECIAL_CENTER(".","!",",","?","0"),
+    SPECIAL_RIGHT(" "," "," "," "," ");
 
     private String west, north, east, south, backSymbol;
 
