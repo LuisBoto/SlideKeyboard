@@ -51,7 +51,6 @@ import java.util.List;
  * be fleshed out as appropriate.
  */
 public class SoftKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
-    static final boolean DEBUG = false;
 
     private InputMethodManager mInputMethodManager;
     private LatinKeyboardView mInputView;
@@ -61,6 +60,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     private int mLastDisplayWidth;
     private boolean mCapsLock;
     private long mLastShiftTime;
+
     private LatinKeyboard mSymbolsKeyboard;
     private LatinKeyboard mSymbolsShiftedKeyboard;
     private LatinKeyboard mQwertyKeyboard;
@@ -205,11 +205,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return super.onKeyUp(keyCode, event);
-    }
-
     /**
      * Helper function to commit any text being composed in to the editor.
      */
@@ -228,7 +223,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         EditorInfo ei = getCurrentInputEditorInfo();
         if (ei != null && ei.inputType != InputType.TYPE_NULL)
             caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
-        mInputView.setShifted(mCapsLock || caps != 0);
+        mInputView.setShifted(mCapsLock || caps == 1);
     }
 
     private void keyDownUp(int keyEventCode) {
@@ -254,41 +249,46 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
     // *** Implementation of KeyboardViewListener *************************
 
+    @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         Log.d("Test","KEYCODE: " + primaryCode);
         if (isWordSeparator(primaryCode)) {
-            // Handle separator
-            if (mComposing.length() > 0) {
+            if (mComposing.length() > 0)
                 commitTyped(getCurrentInputConnection());
-            }
             sendKey(primaryCode);
             updateShiftKeyState(getCurrentInputEditorInfo());
-        } else if (primaryCode == Keyboard.KEYCODE_DELETE) {
-            handleBackspace();
-        } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
-            handleShift();
-        } else if (primaryCode == Keyboard.KEYCODE_CANCEL) {
-            handleClose();
             return;
-        } else if (primaryCode == LatinKeyboardView.KEYCODE_LANGUAGE_SWITCH) {
-            handleLanguageSwitch();
-            return;
-        } else if (primaryCode == LatinKeyboardView.KEYCODE_OPTIONS) {
-            // Show a menu or somethin'
-        } else if (primaryCode == Keyboard.KEYCODE_MODE_CHANGE
-                && mInputView != null) {
-            Keyboard current = mInputView.getKeyboard();
-            if (current == mSymbolsKeyboard || current == mSymbolsShiftedKeyboard) {
-                setLatinKeyboard(mQwertyKeyboard);
-            } else {
-                setLatinKeyboard(mSymbolsKeyboard);
-                mSymbolsKeyboard.setShifted(false);
-            }
-        } else {
-            handleCharacter(primaryCode, keyCodes);
+        }
+        switch(primaryCode) {
+            case Keyboard.KEYCODE_DELETE:
+                handleBackspace();
+                break;
+            case Keyboard.KEYCODE_SHIFT:
+                handleShift();
+                break;
+            case Keyboard.KEYCODE_CANCEL:
+                handleClose();
+                break;
+            case LatinKeyboardView.KEYCODE_LANGUAGE_SWITCH:
+                handleLanguageSwitch();
+                break;
+            case Keyboard.KEYCODE_MODE_CHANGE:
+                if(mInputView == null)
+                    break;
+                Keyboard current = mInputView.getKeyboard();
+                if (current == mSymbolsKeyboard || current == mSymbolsShiftedKeyboard)
+                    setLatinKeyboard(mQwertyKeyboard);
+                else {
+                    setLatinKeyboard(mSymbolsKeyboard);
+                    mSymbolsKeyboard.setShifted(false);
+                }
+                break;
+            default:
+                handleCharacter(primaryCode);
         }
     }
 
+    @Override
     public void onText(CharSequence text) {
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
@@ -316,32 +316,29 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     }
 
     private void handleShift() {
-        if (mInputView == null) {
+        if (mInputView == null)
             return;
-        }
-        
         Keyboard currentKeyboard = mInputView.getKeyboard();
-        if (mQwertyKeyboard == currentKeyboard) {
-            // Alphabet keyboard
+
+        if (currentKeyboard == mQwertyKeyboard) {
             checkToggleCapsLock();
             mInputView.setShifted(mCapsLock || !mInputView.isShifted());
-        } else if (currentKeyboard == mSymbolsKeyboard) {
+        }
+        if (currentKeyboard == mSymbolsKeyboard) {
             mSymbolsKeyboard.setShifted(true);
             setLatinKeyboard(mSymbolsShiftedKeyboard);
             mSymbolsShiftedKeyboard.setShifted(true);
-        } else if (currentKeyboard == mSymbolsShiftedKeyboard) {
+        }
+        if (currentKeyboard == mSymbolsShiftedKeyboard) {
             mSymbolsShiftedKeyboard.setShifted(false);
             setLatinKeyboard(mSymbolsKeyboard);
             mSymbolsKeyboard.setShifted(false);
         }
     }
     
-    private void handleCharacter(int primaryCode, int[] keyCodes) {
-        if (isInputViewShown()) {
-            if (mInputView.isShifted()) {
+    private void handleCharacter(int primaryCode) {
+        if (isInputViewShown() && mInputView.isShifted())
                 primaryCode = Character.toUpperCase(primaryCode);
-            }
-        }
         getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
     }
 
@@ -372,40 +369,40 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         if (mLastShiftTime + 800 > now) {
             mCapsLock = !mCapsLock;
             mLastShiftTime = 0;
-        } else {
+        } else
             mLastShiftTime = now;
-        }
-    }
-    
-    private String getWordSeparators() {
-        return mWordSeparators;
     }
     
     public boolean isWordSeparator(int code) {
-        String separators = getWordSeparators();
-        return separators.contains(String.valueOf((char)code));
+        return mWordSeparators.contains(String.valueOf((char)code));
     }
 
+    @Override
     public void swipeRight() {
         Log.d("SoftKeyboard", "Swipe right");
     }
-    
+
+    @Override
     public void swipeLeft() {
         Log.d("SoftKeyboard", "Swipe left");
         handleBackspace();
     }
 
+    @Override
     public void swipeDown() {
         handleClose();
     }
 
+    @Override
     public void swipeUp() {
     }
 
+    @Override
     public void onPress(int primaryCode) {
 
     }
 
+    @Override
     public void onRelease(int primaryCode) {
 
     }
