@@ -67,7 +67,6 @@ public class SoftKeyboard extends InputMethodService
     private InputMethodManager mInputMethodManager;
 
     private LatinKeyboardView mInputView;
-    private CandidateView mCandidateView;
     private CompletionInfo[] mCompletions;
     
     private StringBuilder mComposing = new StringBuilder();
@@ -142,16 +141,6 @@ public class SoftKeyboard extends InputMethodService
                 mInputMethodManager.shouldOfferSwitchingToNextInputMethod(getToken());
         nextKeyboard.setLanguageSwitchKeyVisibility(shouldSupportLanguageSwitchKey);
         mInputView.setKeyboard(nextKeyboard);
-    }
-
-    /**
-     * Called by the framework when your view for showing candidates needs to
-     * be generated, like {@link #onCreateInputView}.
-     */
-    @Override public View onCreateCandidatesView() {
-        mCandidateView = new CandidateView(this);
-        mCandidateView.setService(this);
-        return mCandidateView;
     }
 
     /**
@@ -316,7 +305,6 @@ public class SoftKeyboard extends InputMethodService
         if (mCompletionOn) {
             mCompletions = completions;
             if (completions == null) {
-                setSuggestions(null, false, false);
                 return;
             }
             
@@ -325,7 +313,6 @@ public class SoftKeyboard extends InputMethodService
                 CompletionInfo ci = completions[i];
                 if (ci != null) stringList.add(ci.getText().toString());
             }
-            setSuggestions(stringList, true, true);
         }
     }
     
@@ -582,23 +569,8 @@ public class SoftKeyboard extends InputMethodService
                 //list.add(mComposing.toString());
                 Log.d("SoftKeyboard", "REQUESTING: " + mComposing.toString());
                 mScs.getSentenceSuggestions(new TextInfo[] {new TextInfo(mComposing.toString())}, 5);
-                setSuggestions(list, true, true);
             } else {
-                setSuggestions(null, false, false);
             }
-        }
-    }
-    
-    public void setSuggestions(List<String> suggestions, boolean completions,
-            boolean typedWordValid) {
-        if (suggestions != null && suggestions.size() > 0) {
-            setCandidatesViewShown(true);
-        } else if (isExtractViewShown()) {
-            setCandidatesViewShown(true);
-        }
-        mSuggestions = suggestions;
-        if (mCandidateView != null) {
-            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
         }
     }
     
@@ -697,34 +669,8 @@ public class SoftKeyboard extends InputMethodService
         return separators.contains(String.valueOf((char)code));
     }
 
-    public void pickDefaultCandidate() {
-        pickSuggestionManually(0);
-    }
-    
-    public void pickSuggestionManually(int index) {
-        if (mCompletionOn && mCompletions != null && index >= 0
-                && index < mCompletions.length) {
-            CompletionInfo ci = mCompletions[index];
-            getCurrentInputConnection().commitCompletion(ci);
-            if (mCandidateView != null) {
-                mCandidateView.clear();
-            }
-            updateShiftKeyState(getCurrentInputEditorInfo());
-        } else if (mComposing.length() > 0) {
-
-            if (mPredictionOn && mSuggestions != null && index >= 0) {
-                mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
-            }
-            commitTyped(getCurrentInputConnection());
-
-        }
-    }
-    
     public void swipeRight() {
         Log.d("SoftKeyboard", "Swipe right");
-        if (mCompletionOn || mPredictionOn) {
-            pickDefaultCandidate();
-        }
     }
     
     public void swipeLeft() {
@@ -790,6 +736,5 @@ public class SoftKeyboard extends InputMethodService
             }
         }
         Log.d("SoftKeyboard", "SUGGESTIONS: " + sb.toString());
-        setSuggestions(sb, true, true);
     }
 }
