@@ -26,6 +26,7 @@ import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodSubtype;
 
 import java.util.List;
@@ -35,8 +36,9 @@ public class LatinKeyboardView extends KeyboardView {
     static final int KEYCODE_OPTIONS = -100;
     // TODO: Move this into android.inputmethodservice.Keyboard
     static final int KEYCODE_LANGUAGE_SWITCH = -101;
-    private Key pressedKey;
-    private int swipeDirection;
+    private Keys pressedKey;
+    private MotionEvent pressedOn;
+    private int swipedDirection;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,27 +50,27 @@ public class LatinKeyboardView extends KeyboardView {
 
     @Override
     public boolean onTouchEvent(MotionEvent me) {
-        int x = (int)me.getX();
-        int y = (int)me.getY();
-        int action = me.getAction();
-        this.pressedKey = getKey(x, y);
-        this.swipeDirection = action;
+        switch(me.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                this.pressedKey = getKey(me.getX(), me.getY());
+                this.pressedOn = me;
+                break;
+            case MotionEvent.ACTION_UP:
+                this.swipedDirection = Keys.determineSwipedDirection(this.pressedOn, me);
+                break;
+        }
         return super.onTouchEvent(me);
     }
 
-    public int getPressedKeyCode() {
-        return this.pressedKey.codes[0];
+    public int getSwipedKeyCode() {
+        return this.pressedKey.getCodeFor(this.swipedDirection);
     }
 
-    public int getSwipeDirection() {
-        return this.swipeDirection;
-    }
-
-    private Key getKey(int x, int y){
-        for(Keyboard.Key k:getKeyboard().getKeys())
+    private Keys getKey(float x, float y){
+        /*for(Keyboard.Key k:getKeyboard().getKeys())
             if((x>=k.x && x<=k.x+ k.width) && (y>=k.y && y<=k.y + k.height))
-                return k;
-        return null;
+                return Keys.values()[k.codes[0]];*/
+        return Keys.TOP_CENTER;
     }
 
     @Override
@@ -118,4 +120,5 @@ public class LatinKeyboardView extends KeyboardView {
 
         }
     }
+
 }

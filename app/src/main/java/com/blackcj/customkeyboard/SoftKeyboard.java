@@ -23,26 +23,15 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.IBinder;
 import android.text.InputType;
-import android.text.method.MetaKeyKeyListener;
 import android.util.Log;
-import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
-import android.view.textservice.SentenceSuggestionsInfo;
-import android.view.textservice.SpellCheckerSession;
-import android.view.textservice.SuggestionsInfo;
-import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Example of writing an input method for a soft keyboard.  This code is
@@ -289,6 +278,13 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         }
     }
 
+    private void handleSwipedCharacter() {
+        int primaryCode = mInputView.getSwipedKeyCode();
+        if (isInputViewShown() && mInputView.isShifted())
+            primaryCode = Character.toUpperCase(primaryCode);
+        getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
+    }
+
     @Override
     public void onText(CharSequence text) {
         InputConnection ic = getCurrentInputConnection();
@@ -335,14 +331,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
             setLatinKeyboard(mSymbolsKeyboard);
             mSymbolsKeyboard.setShifted(false);
         }
-    }
-    
-    private void handleSwipedCharacter() {
-        int primaryCode = mInputView.getPressedKeyCode();
-        if (isInputViewShown() && mInputView.isShifted())
-                primaryCode = Character.toUpperCase(primaryCode);
-        if (mInputView.getSwipeDirection() == MotionEvent.ACTION_UP)
-            getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
     }
 
     private void handleClose() {
