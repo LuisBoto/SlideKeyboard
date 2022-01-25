@@ -16,7 +16,11 @@
 
 package com.blackcj.customkeyboard;
 
+import static java.security.AccessController.getContext;
+
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -24,9 +28,12 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodSubtype;
 
 import java.util.List;
@@ -52,25 +59,32 @@ public class LatinKeyboardView extends KeyboardView {
     public boolean onTouchEvent(MotionEvent me) {
         switch(me.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                this.pressedKey = getKey(me.getX(), me.getY());
                 this.pressedOn = me;
                 break;
+            case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP:
-                this.swipedDirection = Keys.determineSwipedDirection(this.pressedOn, me);
+                this.swipedDirection = Keys.determineSwipedDirection(this.pressedOn, me, getDisplayDimensions());
                 break;
         }
         return super.onTouchEvent(me);
     }
 
-    public int getSwipedKeyCode() {
-        return this.pressedKey.getCodeFor(this.swipedDirection);
+    private double[] getDisplayDimensions() {
+        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        return new double[]{ height, width };
+    }
+
+    public int getSwipedDirection() {
+        return this.swipedDirection;
     }
 
     private Keys getKey(float x, float y){
-        /*for(Keyboard.Key k:getKeyboard().getKeys())
+        for(Keyboard.Key k:getKeyboard().getKeys())
             if((x>=k.x && x<=k.x+ k.width) && (y>=k.y && y<=k.y + k.height))
-                return Keys.values()[k.codes[0]];*/
-        return Keys.TOP_CENTER;
+                if (k.codes[0]<Keys.values().length)
+                    return Keys.values()[k.codes[0]];
+        return Keys.SPECIAL_RIGHT;
     }
 
     @Override
@@ -78,13 +92,8 @@ public class LatinKeyboardView extends KeyboardView {
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(KEYCODE_OPTIONS, null);
             return true;
-        /*} else if (key.codes[0] == 113) {
-
-            return true; */
-        } else {
-            //Log.d("LatinKeyboardView", "KEY: " + key.codes[0]);
-            return super.onLongPress(key);
         }
+        return super.onLongPress(key);
     }
 
     void setSubtypeOnSpaceKey(final InputMethodSubtype subtype) {

@@ -1,5 +1,9 @@
 package com.blackcj.customkeyboard;
 
+import static java.security.AccessController.getContext;
+
+import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 public enum Keys {
@@ -72,23 +76,28 @@ public enum Keys {
         return this.getBackSymbol();
     }
 
-    public static int determineSwipedDirection(MotionEvent event1, MotionEvent event2) {
+    public static int determineSwipedDirection(MotionEvent event1, MotionEvent event2, double[] displayDimensions) {
         // Event 2 is last in time
-        float upperThreshold = 1.3F; // 3%
-        float lesserThreshold = 0.3F;
-        float initialX = event1.getRawX();
-        float initialY = event1.getRawY();
-        float finalX = event2.getRawX();
-        float finalY = event2.getRawY();
+        double thresholdY = displayDimensions[0] * 0.01;
+        double thresholdX = displayDimensions[1] * 0.01;
+        float initialX = event1.getX();
+        float initialY = event1.getY();
+        float finalX = event2.getX();
+        float finalY = event2.getY();
+        float deltaX = Math.abs(finalX - initialX);
+        float deltaY = Math.abs(finalY - initialY);
 
-        if (finalX > initialX)
-            return DIRECTION_RIGHT;
-        if (finalX < initialX)
-            return DIRECTION_LEFT;
-        if (finalY > initialY)
-            return DIRECTION_DOWN;
-        if (finalY < initialY)
-            return DIRECTION_UP;
+        if (deltaX > thresholdX || deltaY > thresholdY) {
+            if (deltaX >= thresholdX) {
+                if (initialX < finalX)
+                    return DIRECTION_RIGHT;
+                return DIRECTION_LEFT;
+            } if (deltaY >= thresholdY) {
+                if (initialY < finalY)
+                    return DIRECTION_UP;
+                return DIRECTION_DOWN;
+            }
+        }
         return NO_DIRECTION;
     }
 }

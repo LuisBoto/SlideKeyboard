@@ -274,12 +274,12 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 }
                 break;
             default:
-                handleSwipedCharacter();
+                handleSwipedCharacter(primaryCode);
         }
     }
 
-    private void handleSwipedCharacter() {
-        int primaryCode = mInputView.getSwipedKeyCode();
+    private void handleSwipedCharacter(int primaryCode) {
+        primaryCode = Keys.values()[primaryCode].getCodeFor(mInputView.getSwipedDirection());
         if (isInputViewShown() && mInputView.isShifted())
             primaryCode = Character.toUpperCase(primaryCode);
         getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
