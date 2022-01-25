@@ -6,34 +6,42 @@ import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
+import java.util.Arrays;
+
 public enum Keys {
 
-    TOP_LEFT(' ', ' ', ' ',' ', '1'),
-    TOP_CENTER('a','b','c','ç','2'),
-    TOP_RIGHT('d','e','f',' ','3'),
-    CENTER_LEFT('g', 'h', 'i', ' ', '4'),
-    CENTER_CENTER('j','k','l',' ', '5'),
-    CENTER_RIGHT('m','n','o','ñ','6'),
-    BOTTOM_LEFT('p','q','r','s','7'),
-    BOTTOM_CENTER('t','u','v',' ','8'),
-    BOTTOM_RIGHT('w','x','y','z','9'),
-    SPECIAL_LEFT('-','/','_','@','*'),
-    SPECIAL_CENTER('.','!',',','?','0'),
-    SPECIAL_RIGHT(' ',' ',' ',' ');
+    TOP_LEFT(65,' ', ' ', ' ',' ', '1'),
+    TOP_CENTER(66,'a','b','c','ç','2'),
+    TOP_RIGHT(67,'d','e','f',' ','3'),
+    CENTER_LEFT(68,'g', 'h', 'i', ' ', '4'),
+    CENTER_CENTER(69,'j','k','l',' ', '5'),
+    CENTER_RIGHT(70,'m','n','o','ñ','6'),
+    BOTTOM_LEFT(71,'p','q','r','s','7'),
+    BOTTOM_CENTER(72,'t','u','v',' ','8'),
+    BOTTOM_RIGHT(73,'w','x','y','z','9'),
+    SPECIAL_LEFT(74,'-','/','_','@','*'),
+    SPECIAL_CENTER(75,'.','!',',','?','0'),
+    SPECIAL_RIGHT(76,' ',' ',' ',' ');
 
+    private int keyCode;
     private Character west, north, east, south, backSymbol;
 
-    private Keys(Character west, Character north, Character east, Character south, Character backSymbol) {
-        this(west, north, east, south);
+    private Keys(int keyCode, Character west, Character north, Character east, Character south, Character backSymbol) {
+        this(keyCode, west, north, east, south);
         this.backSymbol = backSymbol;
     }
 
-    private Keys(Character west, Character north, Character east, Character south) {
+    private Keys(int keyCode, Character west, Character north, Character east, Character south) {
+        this.keyCode = keyCode;
         this.west = west;
         this.north = north;
         this.east = east;
         this.south = south;
         this.backSymbol = ' ';
+    }
+
+    public int getKeyCode() {
+        return this.keyCode;
     }
 
     public Character getWest() {
@@ -92,5 +100,12 @@ public enum Keys {
             }
         }
         return NO_DIRECTION;
+    }
+
+    public static Keys getKeyForCode(int keyCode) {
+        for (Keys key : Keys.values())
+            if (key.getKeyCode() == keyCode)
+                return key;
+        return Keys.SPECIAL_RIGHT;
     }
 }

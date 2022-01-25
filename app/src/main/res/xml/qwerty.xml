@@ -25,33 +25,33 @@
     android:keyHeight="12%p">
 
     <Row>
-        <Key android:codes="0" android:keyLabel="1" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="1" android:keyLabel="abcç" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="2" android:keyLabel="def3" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="65" android:keyLabel="1" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="66" android:keyLabel="abcç" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="67" android:keyLabel="def3" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="-5" android:keyIcon="@drawable/sym_keyboard_delete"
             android:horizontalGap="5%p" android:keyWidth="15%p" android:keyEdgeFlags="right"
             android:isRepeatable="true"/>
     </Row>
 
     <Row>
-        <Key android:codes="3" android:keyLabel="ghi4" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="4" android:keyLabel="jkl5" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="5" android:keyLabel="mnño" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="68" android:keyLabel="ghi4" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="69" android:keyLabel="jkl5" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="70" android:keyLabel="mnño" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
     </Row>
     
     <Row>
-        <Key android:codes="6" android:keyLabel="pqrs" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="7" android:keyLabel="tuv8" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="8" android:keyLabel="wxyz" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="71" android:keyLabel="pqrs" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="72" android:keyLabel="tuv8" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="73" android:keyLabel="wxyz" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="-1,-2" android:keyIcon="@drawable/sym_keyboard_shift"
             android:horizontalGap="5%p" android:keyWidth="15%p" android:isModifier="true"
                 android:isSticky="true" android:keyEdgeFlags="right"/>
     </Row>
     
     <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="9" android:keyLabel="-/_@" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="10" android:keyLabel=".!,\?" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="11" android:keyIcon="@drawable/sym_keyboard_space" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="74" android:keyLabel="-/_@" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="75" android:keyLabel=".!,\?" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="76" android:keyIcon="@drawable/sym_keyboard_space" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="10" android:keyIcon="@drawable/sym_keyboard_return"
             android:horizontalGap="5%p" android:keyWidth="15%p" android:keyEdgeFlags="right"/>
     </Row>

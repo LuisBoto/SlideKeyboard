@@ -193,9 +193,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * Helper function to commit any text being composed in to the editor.
-     */
     private void commitTyped(InputConnection inputConnection) {
         if (mComposing.length() > 0) {
             inputConnection.commitText(mComposing, mComposing.length());
@@ -274,7 +271,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     }
 
     private void handleSwipedCharacter(int primaryCode) {
-        primaryCode = Keys.values()[primaryCode].getCodeFor(mInputView.getSwipedDirection());
+        primaryCode = Keys.getKeyForCode(primaryCode).getCodeFor(mInputView.getSwipedDirection());
         if (isInputViewShown() && mInputView.isShifted())
             primaryCode = Character.toUpperCase(primaryCode);
         getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
