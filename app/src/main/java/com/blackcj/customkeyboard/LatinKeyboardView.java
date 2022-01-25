@@ -106,7 +106,7 @@ public class LatinKeyboardView extends KeyboardView {
 
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(80);
+        paint.setTextSize(65);
         paint.setColor(Color.WHITE);
 
         List<Key> keys = getKeyboard().getKeys();
@@ -118,8 +118,8 @@ public class LatinKeyboardView extends KeyboardView {
                 Keys actualKey = Keys.getKeyForCode(key.codes[0]).setShifted(isShifted());
                 canvas.drawText(String.valueOf(actualKey.getNorth()), centerX, centerY - (key.height/4), paint);
                 centerY = centerY + key.height/8;
-                canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/3), centerY, paint);
-                canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/3), centerY, paint);
+                canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/4), centerY, paint);
+                canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/4), centerY, paint);
                 centerY = centerY + key.height/16;
                 canvas.drawText(String.valueOf(actualKey.getSouth()), centerX, centerY + (key.height/4), paint);
                 //canvas.drawText(String.valueOf(actualKey.getBackSymbol()), centerX, centerY, paint);

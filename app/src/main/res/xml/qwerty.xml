@@ -22,7 +22,7 @@
     android:keyWidth="25%p"
     android:horizontalGap="10px"
     android:verticalGap="10px"
-    android:keyHeight="12%p">
+    android:keyHeight="8%p">
 
     <Row android:rowEdgeFlags="top">
         <Key android:codes="65" android:keyIcon="@drawable/icon_n1" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>

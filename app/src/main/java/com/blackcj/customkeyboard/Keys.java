@@ -21,7 +21,16 @@ public enum Keys {
     BOTTOM_RIGHT(73,'w','x','y','z','9'),
     SPECIAL_LEFT(74,'-','/','_','@','*'),
     SPECIAL_CENTER(75,'.','!',',','?','0'),
-    SPECIAL_RIGHT(76,' ',' ',' ',' ');
+    SPECIAL_RIGHT(76,' ',' ',' ',' '),
+    SYMBOL_TOP_LEFT(77, '[', '#', ']', '&', '1'),
+    SYMBOL_TOP_CENTER(78, '(', '=', ')', '+', '2'),
+    SYMBOL_TOP_RIGHT(79, '`', '\'', '´', '"', '3'),
+    SYMBOL_CENTER_LEFT(80, '\\', ':', '/', ';', '4'),
+    SYMBOL_CENTER_CENTER(81, '~', '±', '×', '÷', '5'),
+    SYMBOL_CENTER_RIGHT(82, '©','•','®','°','6'),
+    SYMBOL_BOTTOM_LEFT(83, '¥','£','€','¢','7'),
+    SYMBOL_BOTTOM_CENTER(84, '<','^','>','$','8'),
+    SYMBOL_BOTTOM_RIGHT(85, '|', '¡', '¿', '%', '9');
 
     public static int KEYCODE_START = 65;
     private boolean shifted = false;
