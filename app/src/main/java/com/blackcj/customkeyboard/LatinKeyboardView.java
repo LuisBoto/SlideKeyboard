@@ -42,8 +42,7 @@ public class LatinKeyboardView extends KeyboardView {
 
     static final int KEYCODE_OPTIONS = -100;
     private float pressedOnX, pressedOnY;
-    private int swipedDirection;
-    private int lastDirection;
+    private int swipedDirection, lastDirection;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -107,25 +106,22 @@ public class LatinKeyboardView extends KeyboardView {
 
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(28);
-        paint.setColor(Color.LTGRAY);
+        paint.setTextSize(80);
+        paint.setColor(Color.WHITE);
 
         List<Key> keys = getKeyboard().getKeys();
+        int centerX, centerY;
         for(Key key: keys) {
-            if(key.label != null) {
-                if (key.label.equals("q")) {
-                    canvas.drawText("1", key.x + (key.width - 25), key.y + 40, paint);
-                } else if (key.label.equals("w")) {
-                    canvas.drawText("2", key.x + (key.width - 25), key.y + 40, paint);
-                } else if (key.label.equals("e")) {
-                    canvas.drawText("3", key.x + (key.width - 25), key.y + 40, paint);
-                } else if (key.label.equals("r")) {
-                    canvas.drawText("4", key.x + (key.width - 25), key.y + 40, paint);
-                } else if (key.label.equals("t")) {
-                    canvas.drawText("5", key.x + (key.width - 25), key.y + 40, paint);
-                }
+            if (key.codes[0] >= Keys.KEYCODE_START) {
+                centerX = key.x + key.width/2;
+                centerY = key.y + key.height/2;
+                Keys actualKey = Keys.getKeyForCode(key.codes[0]);
+                canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/4), centerY, paint);
+                canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/4), centerY, paint);
+                canvas.drawText(String.valueOf(actualKey.getNorth()), centerX, centerY - (key.height/4), paint);
+                canvas.drawText(String.valueOf(actualKey.getSouth()), centerX, centerY + (key.height/4), paint);
+                canvas.drawText(String.valueOf(actualKey.getBackSymbol()), centerX, centerY, paint);
             }
-
         }
     }
 

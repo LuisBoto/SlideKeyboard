@@ -23,6 +23,7 @@ public enum Keys {
     SPECIAL_CENTER(75,'.','!',',','?','0'),
     SPECIAL_RIGHT(76,' ',' ',' ',' ');
 
+    public static int KEYCODE_START = 65;
     private int keyCode;
     private Character west, north, east, south, backSymbol;
 

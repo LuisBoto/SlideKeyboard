@@ -24,7 +24,7 @@
     android:verticalGap="10px"
     android:keyHeight="12%p">
 
-    <Row>
+    <Row android:rowEdgeFlags="top">
         <Key android:codes="65" android:keyLabel="1" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="66" android:keyLabel="abcç" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="67" android:keyLabel="def3" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
