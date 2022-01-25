@@ -370,32 +370,36 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
     @Override
     public void swipeRight() {
-        Log.d("SoftKeyboard", "Swipe right");
+        onKey(this.pressedCode, null);
     }
 
     @Override
     public void swipeLeft() {
-        Log.d("SoftKeyboard", "Swipe left");
+        onKey(this.pressedCode, null);
         //handleBackspace();
     }
 
     @Override
     public void swipeDown() {
+        onKey(this.pressedCode, null);
         //handleClose();
     }
 
     @Override
     public void swipeUp() {
+        onKey(this.pressedCode, null);
     }
+
+    private int pressedCode;
 
     @Override
     public void onPress(int primaryCode) {
-
+        this.pressedCode = primaryCode;
     }
 
     @Override
     public void onRelease(int primaryCode) {
-
+        int kk;
     }
 
 }

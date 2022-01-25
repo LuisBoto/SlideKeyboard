@@ -43,8 +43,9 @@ public class LatinKeyboardView extends KeyboardView {
     static final int KEYCODE_OPTIONS = -100;
     // TODO: Move this into android.inputmethodservice.Keyboard
     static final int KEYCODE_LANGUAGE_SWITCH = -101;
-    private MotionEvent pressedOn;
+    private float pressedOnX, pressedOnY;
     private int swipedDirection;
+    private int lastDirection;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,22 +56,35 @@ public class LatinKeyboardView extends KeyboardView {
     }
 
     public boolean onTouchEvent(MotionEvent me) {
-        switch(me.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                this.pressedOn = me;
-                break;
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_UP:
-                this.swipedDirection = Keys.determineSwipedDirection(this.pressedOn, me, getDisplayDimensions());
-                break;
+        int action = me.getAction();
+        if (action == MotionEvent.ACTION_DOWN) {
+            this.lastDirection = this.swipedDirection;
+            this.pressedOnX = me.getX();
+            this.pressedOnY = me.getY();
+        }
+        if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
+            this.swipedDirection = Keys.determineSwipedDirection(
+                    this.pressedOnX, this.pressedOnY,
+                    me.getX(), me.getY(),
+                    getDisplayWidth(), getDisplayHeight());
+            if (action == MotionEvent.ACTION_MOVE) {
+                if (this.swipedDirection != this.lastDirection) {
+                    this.lastDirection = this.swipedDirection;
+                    me.setLocation(this.pressedOnX, this.pressedOnY);
+                } else
+                    return true;
+
+            }
         }
         return super.onTouchEvent(me);
     }
 
-    private double[] getDisplayDimensions() {
-        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        return new double[]{ height, width };
+    private double getDisplayWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    private double getDisplayHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
     public int getSwipedDirection() {
