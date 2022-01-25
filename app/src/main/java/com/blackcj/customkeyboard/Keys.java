@@ -24,6 +24,7 @@ public enum Keys {
     SPECIAL_RIGHT(76,' ',' ',' ',' ');
 
     public static int KEYCODE_START = 65;
+    private boolean shifted = false;
     private int keyCode;
     private Character west, north, east, south, backSymbol;
 
@@ -41,24 +42,29 @@ public enum Keys {
         this.backSymbol = ' ';
     }
 
+    public Keys setShifted(boolean shift) {
+        this.shifted = shift;
+        return this;
+    }
+
     public int getKeyCode() {
         return this.keyCode;
     }
 
     public Character getWest() {
-        return this.west;
+        return this.shifted ? Character.toUpperCase(this.west) : this.west;
     }
 
     public Character getNorth() {
-        return this.north;
+        return this.shifted ? Character.toUpperCase(this.north) : this.north;
     }
 
     public Character getEast() {
-        return this.east;
+        return this.shifted ? Character.toUpperCase(this.east) : this.east;
     }
 
     public Character getSouth() {
-        return this.south;
+        return this.shifted ? Character.toUpperCase(this.south) : this.south;
     }
 
     public Character getBackSymbol() {

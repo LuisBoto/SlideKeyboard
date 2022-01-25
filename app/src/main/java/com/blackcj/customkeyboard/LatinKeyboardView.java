@@ -112,10 +112,10 @@ public class LatinKeyboardView extends KeyboardView {
         List<Key> keys = getKeyboard().getKeys();
         int centerX, centerY;
         for(Key key: keys) {
-            if (key.codes[0] >= Keys.KEYCODE_START) {
+            if (key.codes[0] >= Keys.KEYCODE_START) { // Draw multi character key
                 centerX = key.x + key.width/2;
                 centerY = key.y + key.height/2;
-                Keys actualKey = Keys.getKeyForCode(key.codes[0]);
+                Keys actualKey = Keys.getKeyForCode(key.codes[0]).setShifted(isShifted());
                 canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/4), centerY, paint);
                 canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/4), centerY, paint);
                 canvas.drawText(String.valueOf(actualKey.getNorth()), centerX, centerY - (key.height/4), paint);
