@@ -101,8 +101,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     }
 
     private void setLatinKeyboard(LatinKeyboard nextKeyboard) {
-        final boolean shouldSupportLanguageSwitchKey = mInputMethodManager.shouldOfferSwitchingToNextInputMethod(getToken());
-        nextKeyboard.setLanguageSwitchKeyVisibility(shouldSupportLanguageSwitchKey);
         mInputView.setKeyboard(nextKeyboard);
     }
 
@@ -258,9 +256,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 break;
             case Keyboard.KEYCODE_CANCEL:
                 handleClose();
-                break;
-            case LatinKeyboardView.KEYCODE_LANGUAGE_SWITCH:
-                handleLanguageSwitch();
                 break;
             case Keyboard.KEYCODE_MODE_CHANGE:
                 if(mInputView == null)

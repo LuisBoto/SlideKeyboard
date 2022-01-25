@@ -41,8 +41,6 @@ import java.util.List;
 public class LatinKeyboardView extends KeyboardView {
 
     static final int KEYCODE_OPTIONS = -100;
-    // TODO: Move this into android.inputmethodservice.Keyboard
-    static final int KEYCODE_LANGUAGE_SWITCH = -101;
     private float pressedOnX, pressedOnY;
     private int swipedDirection;
     private int lastDirection;
