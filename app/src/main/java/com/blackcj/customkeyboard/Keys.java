@@ -78,8 +78,8 @@ public enum Keys {
 
     public static int determineSwipedDirection(MotionEvent event1, MotionEvent event2, double[] displayDimensions) {
         // Event 2 is last in time
-        double thresholdY = displayDimensions[0] * 0.01;
-        double thresholdX = displayDimensions[1] * 0.01;
+        double thresholdY = 0;//displayDimensions[0] * 0.001;
+        double thresholdX = 0;//displayDimensions[1] * 0.0001;
         float initialX = event1.getX();
         float initialY = event1.getY();
         float finalX = event2.getX();
@@ -88,11 +88,11 @@ public enum Keys {
         float deltaY = Math.abs(finalY - initialY);
 
         if (deltaX > thresholdX || deltaY > thresholdY) {
-            if (deltaX >= thresholdX) {
+            if (deltaX > thresholdX) {
                 if (initialX < finalX)
                     return DIRECTION_RIGHT;
                 return DIRECTION_LEFT;
-            } if (deltaY >= thresholdY) {
+            } if (deltaY > thresholdY) {
                 if (initialY < finalY)
                     return DIRECTION_UP;
                 return DIRECTION_DOWN;

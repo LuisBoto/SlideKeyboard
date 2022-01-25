@@ -43,7 +43,6 @@ public class LatinKeyboardView extends KeyboardView {
     static final int KEYCODE_OPTIONS = -100;
     // TODO: Move this into android.inputmethodservice.Keyboard
     static final int KEYCODE_LANGUAGE_SWITCH = -101;
-    private Keys pressedKey;
     private MotionEvent pressedOn;
     private int swipedDirection;
 
@@ -55,7 +54,6 @@ public class LatinKeyboardView extends KeyboardView {
         super(context, attrs, defStyle);
     }
 
-    @Override
     public boolean onTouchEvent(MotionEvent me) {
         switch(me.getAction()) {
             case MotionEvent.ACTION_DOWN:
