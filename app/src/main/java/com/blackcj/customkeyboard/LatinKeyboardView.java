@@ -66,37 +66,26 @@ public class LatinKeyboardView extends KeyboardView {
             this.swipedDirection = Keys.determineSwipedDirection(
                     this.pressedOnX, this.pressedOnY,
                     me.getX(), me.getY(),
-                    getDisplayWidth(), getDisplayHeight());
+                    getSwipeThreshold());
             if (action == MotionEvent.ACTION_MOVE) {
                 if (this.swipedDirection != this.lastDirection) {
                     this.lastDirection = this.swipedDirection;
                     me.setLocation(this.pressedOnX, this.pressedOnY);
                 } else
                     return true;
-
             }
         }
         return super.onTouchEvent(me);
     }
 
-    private double getDisplayWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
-    private double getDisplayHeight() {
-        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    private double getSwipeThreshold() {
+        return Math.min(
+                Resources.getSystem().getDisplayMetrics().heightPixels,
+                Resources.getSystem().getDisplayMetrics().widthPixels)*0.02;
     }
 
     public int getSwipedDirection() {
         return this.swipedDirection;
-    }
-
-    private Keys getKey(float x, float y){
-        for(Keyboard.Key k:getKeyboard().getKeys())
-            if((x>=k.x && x<=k.x+ k.width) && (y>=k.y && y<=k.y + k.height))
-                if (k.codes[0]<Keys.values().length)
-                    return Keys.values()[k.codes[0]];
-        return Keys.SPECIAL_RIGHT;
     }
 
     @Override

@@ -76,19 +76,16 @@ public enum Keys {
         return this.getBackSymbol();
     }
 
-    public static int determineSwipedDirection(float initialX, float initialY, float finalX, float finalY, double displayWidth, double displayHeight) {
-        // Event 2 is last in time
-        double thresholdY = displayHeight * 0.03;
-        double thresholdX = displayWidth * 0.03;
+    public static int determineSwipedDirection(float initialX, float initialY, float finalX, float finalY, double threshold) {
         float deltaX = Math.abs(finalX - initialX);
         float deltaY = Math.abs(finalY - initialY);
 
-        if (deltaX > thresholdX || deltaY > thresholdY) {
-            if (deltaX > thresholdX) {
+        if (deltaX > threshold || deltaY > threshold) {
+            if (deltaX > deltaY) {
                 if (initialX < finalX)
                     return DIRECTION_RIGHT;
                 return DIRECTION_LEFT;
-            } if (deltaY > thresholdY) {
+            } if (deltaY > deltaX) {
                 if (initialY < finalY)
                     return DIRECTION_DOWN;
                 return DIRECTION_UP;
