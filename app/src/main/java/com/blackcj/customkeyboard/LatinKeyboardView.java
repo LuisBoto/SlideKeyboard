@@ -116,11 +116,13 @@ public class LatinKeyboardView extends KeyboardView {
                 centerX = key.x + key.width/2;
                 centerY = key.y + key.height/2;
                 Keys actualKey = Keys.getKeyForCode(key.codes[0]).setShifted(isShifted());
-                canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/4), centerY, paint);
-                canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/4), centerY, paint);
                 canvas.drawText(String.valueOf(actualKey.getNorth()), centerX, centerY - (key.height/4), paint);
+                centerY = centerY + key.height/8;
+                canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/3), centerY, paint);
+                canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/3), centerY, paint);
+                centerY = centerY + key.height/16;
                 canvas.drawText(String.valueOf(actualKey.getSouth()), centerX, centerY + (key.height/4), paint);
-                canvas.drawText(String.valueOf(actualKey.getBackSymbol()), centerX, centerY, paint);
+                //canvas.drawText(String.valueOf(actualKey.getBackSymbol()), centerX, centerY, paint);
             }
         }
     }

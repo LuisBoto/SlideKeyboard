@@ -343,10 +343,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         return window.getAttributes().token;
     }
 
-    private void handleLanguageSwitch() {
-        mInputMethodManager.switchToNextInputMethod(getToken(), false /* onlyCurrentIme */);
-    }
-
     private void checkToggleCapsLock() {
         long now = System.currentTimeMillis();
         if (mLastShiftTime + 800 > now) {
