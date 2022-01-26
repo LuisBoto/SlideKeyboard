@@ -7,6 +7,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
@@ -17,7 +18,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     private InputMethodManager mInputMethodManager;
     private LatinKeyboardView mInputView;
     
-    private StringBuilder mComposing = new StringBuilder();
+    private final StringBuilder mComposing = new StringBuilder();
     private int mLastDisplayWidth;
 
     private LatinKeyboard mSymbolsKeyboard;
@@ -56,7 +57,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     @Override
     public View onCreateInputView() {
         mInputView = (LatinKeyboardView) getLayoutInflater().inflate(
-                R.layout.input, null);
+                R.layout.input, (ViewGroup) mInputView.getParent(), false);
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setPreviewEnabled(false);
         setLatinKeyboard(mQwertyKeyboard);
@@ -75,14 +76,8 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
-                mCurKeyboard = mSymbolsKeyboard;
-                break;
             case InputType.TYPE_CLASS_PHONE:
                 mCurKeyboard = mSymbolsKeyboard;
-                break;
-            case InputType.TYPE_CLASS_TEXT:
-                mCurKeyboard = mQwertyKeyboard;
-                updateShiftKeyState(attribute);
                 break;
             default:
                 mCurKeyboard = mQwertyKeyboard;
@@ -169,16 +164,13 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     }
 
     private void sendKey(int keyCode) {
-        switch (keyCode) {
-            case '\n':
-                keyDownUp(KeyEvent.KEYCODE_ENTER);
-                break;
-            default:
-                if (keyCode >= '0' && keyCode <= '9')
-                    keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
-                else
-                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
-                break;
+        if (keyCode == '\n')
+            keyDownUp(KeyEvent.KEYCODE_ENTER);
+        else {
+            if (keyCode >= '0' && keyCode <= '9')
+                keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
+            else
+                getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
         }
     }
 

@@ -3,14 +3,19 @@
     package="com.blackcj.customkeyboard">
 
     <application
+        android:allowBackup="true"
+        android:fullBackupOnly="true"
+        android:icon="@drawable/icon_asterisk"
         android:label="@string/ime_name">
-        <activity android:name=".ImePreferences" android:label="@string/settings_name">
+        <activity android:name=".ImePreferences" android:label="@string/settings_name"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <service android:name="SoftKeyboard"
-            android:permission="android.permission.BIND_INPUT_METHOD">
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>

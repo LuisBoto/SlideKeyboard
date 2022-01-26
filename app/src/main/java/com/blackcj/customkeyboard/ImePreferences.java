@@ -26,6 +26,11 @@ import com.android.inputmethodcommon.InputMethodSettingsFragment;
  * Displays the IME preferences inside the input method setting.
  */
 public class ImePreferences extends PreferenceActivity {
+
+    public ImePreferences() {
+        super();
+    }
+
     @Override
     public Intent getIntent() {
         final Intent modIntent = new Intent(super.getIntent());
@@ -56,6 +61,11 @@ public class ImePreferences extends PreferenceActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.ime_preferences);
+        }
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            this.onCreate(savedInstanceState);
         }
     }
 }

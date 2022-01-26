@@ -16,7 +16,7 @@ import java.util.List;
 
 public class LatinKeyboardView extends KeyboardView {
 
-    private Paint paint;
+    private final Paint paint;
     static final int KEYCODE_OPTIONS = -100;
     private float pressedOnX, pressedOnY;
     private int swipedDirection, lastDirection;
@@ -31,6 +31,7 @@ public class LatinKeyboardView extends KeyboardView {
         this.paint = new Paint();
     }
 
+    @Override
     public boolean onTouchEvent(MotionEvent me) {
         int action = me.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
@@ -74,7 +75,7 @@ public class LatinKeyboardView extends KeyboardView {
     }
 
     void setSubtypeOnSpaceKey(final InputMethodSubtype subtype) {
-        final LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
+        //final LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
         //keyboard.setSpaceIcon(getResources().getDrawable(subtype.getIconResId()));
         invalidateAllKeys();
     }
