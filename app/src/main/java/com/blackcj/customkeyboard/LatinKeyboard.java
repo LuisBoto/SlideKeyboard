@@ -7,12 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.core.content.res.ResourcesCompat;
+
 public class LatinKeyboard extends Keyboard {
 
     private Key mEnterKey;
     private Key mSpaceKey;
 
-    
     public LatinKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
     }
@@ -36,7 +37,7 @@ public class LatinKeyboard extends Keyboard {
     void setImeOptions(Resources res, int options) {
         if (mEnterKey == null)
             return;
-        
+
         switch (options&(EditorInfo.IME_MASK_ACTION|EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
             case EditorInfo.IME_ACTION_GO:
                 mEnterKey.iconPreview = null;
@@ -49,7 +50,7 @@ public class LatinKeyboard extends Keyboard {
                 mEnterKey.label = res.getText(R.string.label_next_key);
                 break;
             case EditorInfo.IME_ACTION_SEARCH:
-                mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_search);
+                mEnterKey.icon = ResourcesCompat.getDrawable(res, R.drawable.sym_keyboard_search, null);
                 mEnterKey.label = null;
                 break;
             case EditorInfo.IME_ACTION_SEND:
@@ -58,7 +59,7 @@ public class LatinKeyboard extends Keyboard {
                 mEnterKey.label = res.getText(R.string.label_send_key);
                 break;
             default:
-                mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_return);
+                mEnterKey.icon = ResourcesCompat.getDrawable(res, R.drawable.sym_keyboard_return, null);
                 mEnterKey.label = null;
                 break;
         }
