@@ -5,12 +5,13 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.Keyboard.Key;
-import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodSubtype;
+
+import com.android.inputmethodservice.Keyboard;
+import com.android.inputmethodservice.Keyboard.Key;
+import com.android.inputmethodservice.KeyboardView;
 
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class LatinKeyboardView extends KeyboardView {
     void setSubtypeOnSpaceKey(final InputMethodSubtype subtype) {
         //final LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
         //keyboard.setSpaceIcon(getResources().getDrawable(subtype.getIconResId()));
-        invalidateAllKeys();
+        //super.invalidateAllKeys();
     }
 
     @Override

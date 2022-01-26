@@ -1,67 +1,43 @@
 /*
  * Copyright (C) 2008-2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package android.inputmethodservice;
-import android.annotation.XmlRes;
-import android.compat.annotation.UnsupportedAppUsage;
+package com.android.inputmethodservice;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.util.Xml;
+
+import androidx.annotation.XmlRes;
+
+import com.blackcj.customkeyboard.R;
+
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-/**
- * Loads an XML description of a keyboard and stores the attributes of the keys. A keyboard
- * consists of rows of keys.
- * <p>The layout file for a keyboard contains XML that looks like the following snippet:</p>
- * <pre>
- * &lt;Keyboard
- *         android:keyWidth="%10p"
- *         android:keyHeight="50px"
- *         android:horizontalGap="2px"
- *         android:verticalGap="2px" &gt;
- *     &lt;Row android:keyWidth="32px" &gt;
- *         &lt;Key android:keyLabel="A" /&gt;
- *         ...
- *     &lt;/Row&gt;
- *     ...
- * &lt;/Keyboard&gt;
- * </pre>
- * @attr ref android.R.styleable#Keyboard_keyWidth
- * @attr ref android.R.styleable#Keyboard_keyHeight
- * @attr ref android.R.styleable#Keyboard_horizontalGap
- * @attr ref android.R.styleable#Keyboard_verticalGap
- * @deprecated This class is deprecated because this is just a convenient UI widget class that
- *             application developers can re-implement on top of existing public APIs.  If you have
- *             already depended on this class, consider copying the implementation from AOSP into
- *             your project or re-implementing a similar widget by yourselves
- */
+
 public class Keyboard {
     static final String TAG = "Keyboard";
-    
-    // Keyboard XML Tags
+
     private static final String TAG_KEYBOARD = "Keyboard";
     private static final String TAG_ROW = "Row";
     private static final String TAG_KEY = "Key";
@@ -101,21 +77,18 @@ public class Keyboard {
     private int mKeyHeight;
     
     /** Total height of the keyboard, including the padding and keys */
-    @UnsupportedAppUsage
     private int mTotalHeight;
     
     /** 
      * Total width of the keyboard, including left side gaps and keys, but not any gaps on the
      * right side.
      */
-    @UnsupportedAppUsage
     private int mTotalWidth;
     
     /** List of keys in this keyboard */
     private List<Key> mKeys;
     
     /** List of modifier keys such as Shift & Alt, if any */
-    @UnsupportedAppUsage
     private List<Key> mModifierKeys;
     
     /** Width of the screen available to fit the keyboard */
@@ -174,24 +147,24 @@ public class Keyboard {
         public Row(Resources res, Keyboard parent, XmlResourceParser parser) {
             this.parent = parent;
             TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser), 
-                    com.android.internal.R.styleable.Keyboard);
+                    R.styleable.Keyboard);
             defaultWidth = getDimensionOrFraction(a, 
-                    com.android.internal.R.styleable.Keyboard_keyWidth, 
+                    R.styleable.Keyboard_keyWidth,
                     parent.mDisplayWidth, parent.mDefaultWidth);
-            defaultHeight = getDimensionOrFraction(a, 
-                    com.android.internal.R.styleable.Keyboard_keyHeight, 
+            defaultHeight = getDimensionOrFraction(a,
+                    R.styleable.Keyboard_keyHeight,
                     parent.mDisplayHeight, parent.mDefaultHeight);
             defaultHorizontalGap = getDimensionOrFraction(a,
-                    com.android.internal.R.styleable.Keyboard_horizontalGap, 
+                    R.styleable.Keyboard_horizontalGap,
                     parent.mDisplayWidth, parent.mDefaultHorizontalGap);
             verticalGap = getDimensionOrFraction(a, 
-                    com.android.internal.R.styleable.Keyboard_verticalGap, 
+                    R.styleable.Keyboard_verticalGap,
                     parent.mDisplayHeight, parent.mDefaultVerticalGap);
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
-                    com.android.internal.R.styleable.Keyboard_Row);
-            rowEdgeFlags = a.getInt(com.android.internal.R.styleable.Keyboard_Row_rowEdgeFlags, 0);
-            mode = a.getResourceId(com.android.internal.R.styleable.Keyboard_Row_keyboardMode,
+                    R.styleable.Keyboard_Row);
+            rowEdgeFlags = a.getInt(R.styleable.Keyboard_Row_rowEdgeFlags, 0);
+            mode = a.getResourceId(R.styleable.Keyboard_Row_keyboardMode,
                     0);
         }
     }
@@ -316,22 +289,22 @@ public class Keyboard {
             this.y = y;
             
             TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser), 
-                    com.android.internal.R.styleable.Keyboard);
+                    R.styleable.Keyboard);
             width = getDimensionOrFraction(a, 
-                    com.android.internal.R.styleable.Keyboard_keyWidth,
+                    R.styleable.Keyboard_keyWidth,
                     keyboard.mDisplayWidth, parent.defaultWidth);
             height = getDimensionOrFraction(a, 
-                    com.android.internal.R.styleable.Keyboard_keyHeight,
+                    R.styleable.Keyboard_keyHeight,
                     keyboard.mDisplayHeight, parent.defaultHeight);
             gap = getDimensionOrFraction(a, 
-                    com.android.internal.R.styleable.Keyboard_horizontalGap,
+                    R.styleable.Keyboard_horizontalGap,
                     keyboard.mDisplayWidth, parent.defaultHorizontalGap);
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
-                    com.android.internal.R.styleable.Keyboard_Key);
+                    R.styleable.Keyboard_Key);
             this.x += gap;
             TypedValue codesValue = new TypedValue();
-            a.getValue(com.android.internal.R.styleable.Keyboard_Key_codes, 
+            a.getValue(R.styleable.Keyboard_Key_codes, 
                     codesValue);
             if (codesValue.type == TypedValue.TYPE_INT_DEC 
                     || codesValue.type == TypedValue.TYPE_INT_HEX) {
@@ -340,30 +313,30 @@ public class Keyboard {
                 codes = parseCSV(codesValue.string.toString());
             }
             
-            iconPreview = a.getDrawable(com.android.internal.R.styleable.Keyboard_Key_iconPreview);
+            iconPreview = a.getDrawable(R.styleable.Keyboard_Key_iconPreview);
             if (iconPreview != null) {
                 iconPreview.setBounds(0, 0, iconPreview.getIntrinsicWidth(), 
                         iconPreview.getIntrinsicHeight());
             }
             popupCharacters = a.getText(
-                    com.android.internal.R.styleable.Keyboard_Key_popupCharacters);
+                    R.styleable.Keyboard_Key_popupCharacters);
             popupResId = a.getResourceId(
-                    com.android.internal.R.styleable.Keyboard_Key_popupKeyboard, 0);
+                    R.styleable.Keyboard_Key_popupKeyboard, 0);
             repeatable = a.getBoolean(
-                    com.android.internal.R.styleable.Keyboard_Key_isRepeatable, false);
+                    R.styleable.Keyboard_Key_isRepeatable, false);
             modifier = a.getBoolean(
-                    com.android.internal.R.styleable.Keyboard_Key_isModifier, false);
+                    R.styleable.Keyboard_Key_isModifier, false);
             sticky = a.getBoolean(
-                    com.android.internal.R.styleable.Keyboard_Key_isSticky, false);
-            edgeFlags = a.getInt(com.android.internal.R.styleable.Keyboard_Key_keyEdgeFlags, 0);
+                    R.styleable.Keyboard_Key_isSticky, false);
+            edgeFlags = a.getInt(R.styleable.Keyboard_Key_keyEdgeFlags, 0);
             edgeFlags |= parent.rowEdgeFlags;
             icon = a.getDrawable(
-                    com.android.internal.R.styleable.Keyboard_Key_keyIcon);
+                    R.styleable.Keyboard_Key_keyIcon);
             if (icon != null) {
                 icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
             }
-            label = a.getText(com.android.internal.R.styleable.Keyboard_Key_keyLabel);
-            text = a.getText(com.android.internal.R.styleable.Keyboard_Key_keyOutputText);
+            label = a.getText(R.styleable.Keyboard_Key_keyLabel);
+            text = a.getText(R.styleable.Keyboard_Key_keyOutputText);
             
             if (codes == null && !TextUtils.isEmpty(label)) {
                 codes = new int[] { label.charAt(0) };
@@ -504,7 +477,7 @@ public class Keyboard {
      * @param height sets height of keyboard
      */
     public Keyboard(Context context, @XmlRes int xmlLayoutResId, int modeId, int width,
-            int height) {
+                    int height) {
         mDisplayWidth = width;
         mDisplayHeight = height;
         mDefaultHorizontalGap = 0;
@@ -590,7 +563,7 @@ public class Keyboard {
         mTotalHeight = y + mDefaultHeight;
         rows.add(row);
     }
-    @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P, trackingBug = 115609023)
+    //@UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P, trackingBug = 115609023)
     final void resize(int newWidth, int newHeight) {
         int numRows = rows.size();
         for (int rowIndex = 0; rowIndex < numRows; ++rowIndex) {
@@ -828,18 +801,18 @@ public class Keyboard {
     
     private void parseKeyboardAttributes(Resources res, XmlResourceParser parser) {
         TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser), 
-                com.android.internal.R.styleable.Keyboard);
+                R.styleable.Keyboard);
         mDefaultWidth = getDimensionOrFraction(a,
-                com.android.internal.R.styleable.Keyboard_keyWidth,
+                R.styleable.Keyboard_keyWidth,
                 mDisplayWidth, mDisplayWidth / 10);
         mDefaultHeight = getDimensionOrFraction(a,
-                com.android.internal.R.styleable.Keyboard_keyHeight,
+                R.styleable.Keyboard_keyHeight,
                 mDisplayHeight, 50);
         mDefaultHorizontalGap = getDimensionOrFraction(a,
-                com.android.internal.R.styleable.Keyboard_horizontalGap,
+                R.styleable.Keyboard_horizontalGap,
                 mDisplayWidth, 0);
         mDefaultVerticalGap = getDimensionOrFraction(a,
-                com.android.internal.R.styleable.Keyboard_verticalGap,
+                R.styleable.Keyboard_verticalGap,
                 mDisplayHeight, 0);
         mProximityThreshold = (int) (mDefaultWidth * SEARCH_DISTANCE);
         mProximityThreshold = mProximityThreshold * mProximityThreshold; // Square it for comparison

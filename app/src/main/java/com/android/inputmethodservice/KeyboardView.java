@@ -1,20 +1,5 @@
-/*
- * Copyright (C) 2008-2009 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-package android.inputmethodservice;
-import com.android.internal.R;
+package com.android.inputmethodservice;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -24,7 +9,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.Drawable;
-import android.inputmethodservice.Keyboard.Key;
+import com.android.inputmethodservice.Keyboard.Key;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
@@ -34,29 +19,20 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.blackcj.customkeyboard.R;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-/**
- * A view that renders a virtual {@link Keyboard}. It handles rendering of keys and
- * detecting key presses and touch movements.
- * 
- * @attr ref android.R.styleable#KeyboardView_keyBackground
- * @attr ref android.R.styleable#KeyboardView_keyPreviewLayout
- * @attr ref android.R.styleable#KeyboardView_keyPreviewOffset
- * @attr ref android.R.styleable#KeyboardView_labelTextSize
- * @attr ref android.R.styleable#KeyboardView_keyTextSize
- * @attr ref android.R.styleable#KeyboardView_keyTextColor
- * @attr ref android.R.styleable#KeyboardView_verticalCorrection
- * @attr ref android.R.styleable#KeyboardView_popupLayout
- */
+
 public class KeyboardView extends View implements View.OnClickListener {
     /**
      * Listener for virtual keyboard events.
@@ -143,7 +119,11 @@ public class KeyboardView extends View implements View.OnClickListener {
     
     private Paint mPaint;
     private Rect mPadding;
-    
+    private int mPaddingLeft;
+    private int mPaddingRight;
+    private int mPaddingTop;
+    private int mPaddingBottom;
+
     private long mDownTime;
     private long mLastMoveTime;
     private int mLastKey;
@@ -200,13 +180,13 @@ public class KeyboardView extends View implements View.OnClickListener {
         }
     };
     public KeyboardView(Context context, AttributeSet attrs) {
-        this(context, attrs, com.android.internal.R.attr.keyboardViewStyle);
+        this(context, attrs, R.attr.keyboardViewStyle);
     }
     public KeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a =
             context.obtainStyledAttributes(
-                attrs, android.R.styleable.KeyboardView, defStyle, 0);
+                attrs, R.styleable.KeyboardView, defStyle, 0);
         LayoutInflater inflate =
                 (LayoutInflater) context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -217,31 +197,31 @@ public class KeyboardView extends View implements View.OnClickListener {
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
             switch (attr) {
-            case com.android.internal.R.styleable.KeyboardView_keyBackground:
+            case R.styleable.KeyboardView_keyBackground:
                 mKeyBackground = a.getDrawable(attr);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_verticalCorrection:
+            case R.styleable.KeyboardView_verticalCorrection:
                 mVerticalCorrection = a.getDimensionPixelOffset(attr, 0);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_keyPreviewLayout:
+            case R.styleable.KeyboardView_keyPreviewLayout:
                 previewLayout = a.getResourceId(attr, 0);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_keyPreviewOffset:
+            case R.styleable.KeyboardView_keyPreviewOffset:
                 mPreviewOffset = a.getDimensionPixelOffset(attr, 0);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_keyPreviewHeight:
+            case R.styleable.KeyboardView_keyPreviewHeight:
                 mPreviewHeight = a.getDimensionPixelSize(attr, 80);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_keyTextSize:
+            case R.styleable.KeyboardView_keyTextSize:
                 mKeyTextSize = a.getDimensionPixelSize(attr, 18);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_keyTextColor:
+            case R.styleable.KeyboardView_keyTextColor:
                 mKeyTextColor = a.getColor(attr, 0xFF000000);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_labelTextSize:
+            case R.styleable.KeyboardView_labelTextSize:
                 mLabelTextSize = a.getDimensionPixelSize(attr, 14);
                 break;
-            case com.android.internal.R.styleable.KeyboardView_popupLayout:
+            case R.styleable.KeyboardView_popupLayout:
                 mPopupLayout = a.getResourceId(attr, 0);
                 break;
             }
@@ -282,6 +262,10 @@ public class KeyboardView extends View implements View.OnClickListener {
         
         resetMultiTap();
         initGestureDetector();
+        this.mPaddingBottom = getPaddingBottom();
+        this.mPaddingTop = getPaddingTop();
+        this.mPaddingLeft = getPaddingLeft();
+        this.mPaddingRight = getPaddingRight();
     }
     
     private void initGestureDetector() {
@@ -425,6 +409,10 @@ public class KeyboardView extends View implements View.OnClickListener {
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // Round up a little
         if (mKeyboard == null) {
+            mPaddingLeft = getPaddingLeft();
+            mPaddingRight = getPaddingRight();
+            mPaddingTop = getPaddingTop();
+            mPaddingBottom = getPaddingBottom();
             setMeasuredDimension(mPaddingLeft + mPaddingRight, mPaddingTop + mPaddingBottom);
         } else {
             int width = mKeyboard.getMinWidth() + mPaddingLeft + mPaddingRight;
@@ -539,17 +527,17 @@ public class KeyboardView extends View implements View.OnClickListener {
     }
     private void playKeyClick() {
         if (mSoundOn) {
-            playSoundEffect(0);
+            playSoundEffect(SoundEffectConstants.CLICK);
         }
     }
     private void vibrate() {
         if (!mVibrateOn) {
             return;
         }
-        if (mVibrator == null) {
-            mVibrator = new Vibrator();
+        if (mVibrator != null) {
+            //mVibrator = new Vibrator();
+            mVibrator.vibrate(mVibratePattern, -1);
         }
-        mVibrator.vibrate(mVibratePattern, -1);
     }
     private int getKeyIndices(int x, int y, int[] allKeys) {
         final List<Key> keys = mKeyboard.getKeys();
@@ -770,9 +758,9 @@ public class KeyboardView extends View implements View.OnClickListener {
                         Context.LAYOUT_INFLATER_SERVICE);
                 mMiniKeyboardContainer = inflater.inflate(mPopupLayout, null);
                 mMiniKeyboard = (KeyboardView) mMiniKeyboardContainer.findViewById(
-                        com.android.internal.R.id.keyboardView);
+                        android.R.id.keyboardView);
                 View closeButton = mMiniKeyboardContainer.findViewById(
-                        com.android.internal.R.id.button_close);
+                        android.R.id.closeButton);
                 if (closeButton != null) closeButton.setOnClickListener(this);
                 mMiniKeyboard.setOnKeyboardActionListener(new OnKeyboardActionListener() {
                     public void onKey(int primaryCode, int[] keyCodes) {
@@ -802,7 +790,7 @@ public class KeyboardView extends View implements View.OnClickListener {
                 mMiniKeyboardCache.put(popupKey, mMiniKeyboardContainer);
             } else {
                 mMiniKeyboard = (KeyboardView) mMiniKeyboardContainer.findViewById(
-                        com.android.internal.R.id.keyboardView);
+                        android.R.id.keyboardView);
             }
             if (mWindowOffset == null) {
                 mWindowOffset = new int[2];

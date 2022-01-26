@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
-import android.inputmethodservice.Keyboard;
+import com.android.inputmethodservice.Keyboard;
 import android.view.inputmethod.EditorInfo;
 
 import androidx.core.content.res.ResourcesCompat;

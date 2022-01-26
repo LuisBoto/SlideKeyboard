@@ -1,8 +1,8 @@
 package com.blackcj.customkeyboard;
 
 import android.inputmethodservice.InputMethodService;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
+import com.android.inputmethodservice.Keyboard;
+import com.android.inputmethodservice.KeyboardView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -208,7 +208,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
     }
 
-    @Override
+    /*@Override
     public void onText(CharSequence text) {
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
@@ -219,7 +219,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         ic.commitText(text, 0);
         ic.endBatchEdit();
         updateShiftKeyState(getCurrentInputEditorInfo());
-    }
+    }*/
     
     private void handleBackspace() {
         final int length = mComposing.length();
@@ -282,7 +282,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
     private int pressedCode;
 
-    @Override
+    /*@Override
     public void onPress(int primaryCode) {
         this.pressedCode = primaryCode;
     }
@@ -290,6 +290,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     @Override
     public void onRelease(int primaryCode) {
 
-    }
+    }*/
 
 }
