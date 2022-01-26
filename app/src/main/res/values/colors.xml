@@ -18,7 +18,7 @@
 */
 -->
 <resources>
-    <color name="colorPrimary">#252525</color>
+    <color name="colorPrimary">#00252525</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#80b1ff</color>
     <color name="candidate_normal">#FF000000</color>

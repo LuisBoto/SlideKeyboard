@@ -19,7 +19,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Title for Latin keyboard  -->
-    <string name="ime_name">Sample Soft Keyboard</string>
+    <string name="ime_name">Slide Keyboard</string>
 
     <!-- Symbols that are commonly considered word separators in this language -->
     <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
@@ -29,12 +29,22 @@
     <string name="label_next_key">Next</string>
     <string name="label_send_key">Send</string>
 
+    <!-- Popup keys for qwerty keys -->
+    <string name="popup_2">áàâåäãąæćčç</string>
+    <string name="popup_3">ďéèêěëę</string>
+    <string name="popup_4">íìîïı</string>
+    <string name="popup_5">ł</string>
+    <string name="popup_6">ńňñóòôöõøœ</string>
+    <string name="popup_7">ř§śšß</string>
+    <string name="popup_8">ťúùûůü</string>
+    <string name="popup_9">ýÿźžż</string>
+
     <!-- Labels for subtype -->
     <string name="label_subtype_generic">%s</string>
     <string name="label_subtype_en_GB">English (GB)</string>
 
     <!-- Titles for ImePreference -->
-    <string name="settings_name">Sample Soft Keyboard Settings</string>
+    <string name="settings_name">Slide Keyboard Settings</string>
     <string name="language_selection_title">Input languages</string>
     <string name="select_language">Select input languages</string>
     <string name="general_category">General</string>

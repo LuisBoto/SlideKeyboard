@@ -90,7 +90,7 @@ public class LatinKeyboardView extends KeyboardView {
         List<Key> keys = getKeyboard().getKeys();
         int centerX, centerY;
         for(Key key: keys) {
-            if (key.codes[0] >= Keys.KEYCODE_START) { // Draw multi character key
+            if (Keys.isKeyCodeWithinMultikeys(key.codes[0])) {
                 centerX = key.x + key.width/2;
                 centerY = key.y + key.height/2;
                 Keys actualKey = Keys.getKeyForCode(key.codes[0]).setShifted(isShifted());

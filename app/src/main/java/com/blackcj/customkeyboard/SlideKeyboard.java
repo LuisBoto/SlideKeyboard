@@ -12,7 +12,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 
-public class SoftKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
+public class SlideKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private InputMethodManager mInputMethodManager;
     private LatinKeyboardView mInputView;
@@ -210,7 +210,8 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     }
 
     private void handleSwipedCharacter(int primaryCode) {
-        primaryCode = Keys.getKeyForCode(primaryCode).getCodeFor(mInputView.getSwipedDirection());
+        if (Keys.isKeyCodeWithinMultikeys(primaryCode))
+            primaryCode = Keys.getKeyForCode(primaryCode).getCodeFor(mInputView.getSwipedDirection());
         if (isInputViewShown() && mInputView.isShifted())
             primaryCode = Character.toUpperCase(primaryCode);
         getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);

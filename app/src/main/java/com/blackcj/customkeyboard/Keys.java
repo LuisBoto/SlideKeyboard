@@ -33,6 +33,7 @@ public enum Keys {
     SYMBOL_BOTTOM_RIGHT(85, '|', '¡', '¿', '%', '9');
 
     public static int KEYCODE_START = 65;
+    public static int KEYCODE_FINISH = 85;
     private boolean shifted = false;
     private int keyCode;
     private Character west, north, east, south, backSymbol;
@@ -123,5 +124,9 @@ public enum Keys {
             if (key.getKeyCode() == keyCode)
                 return key;
         return Keys.SPECIAL_RIGHT;
+    }
+
+    public static boolean isKeyCodeWithinMultikeys(int keycode) {
+        return keycode >= KEYCODE_START && keycode <= KEYCODE_FINISH;
     }
 }
