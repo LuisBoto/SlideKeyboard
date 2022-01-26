@@ -57,5 +57,10 @@ public class ImePreferences extends PreferenceActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.ime_preferences);
         }
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            this.onCreate(savedInstanceState);
+        }
     }
 }
