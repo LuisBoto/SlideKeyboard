@@ -5,19 +5,18 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.Keyboard.Key;
+import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodSubtype;
-
-import com.android.inputmethodservice.Keyboard;
-import com.android.inputmethodservice.Keyboard.Key;
-import com.android.inputmethodservice.KeyboardView;
 
 import java.util.List;
 
 public class LatinKeyboardView extends KeyboardView {
 
-    private final Paint paint;
+    private Paint paint;
     static final int KEYCODE_OPTIONS = -100;
     private float pressedOnX, pressedOnY;
     private int swipedDirection, lastDirection;
@@ -32,7 +31,6 @@ public class LatinKeyboardView extends KeyboardView {
         this.paint = new Paint();
     }
 
-    @Override
     public boolean onTouchEvent(MotionEvent me) {
         int action = me.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
@@ -76,9 +74,9 @@ public class LatinKeyboardView extends KeyboardView {
     }
 
     void setSubtypeOnSpaceKey(final InputMethodSubtype subtype) {
-        //final LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
+        final LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
         //keyboard.setSpaceIcon(getResources().getDrawable(subtype.getIconResId()));
-        //super.invalidateAllKeys();
+        invalidateAllKeys();
     }
 
     @Override

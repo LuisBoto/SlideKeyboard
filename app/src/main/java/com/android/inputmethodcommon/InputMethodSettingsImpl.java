@@ -1,23 +1,45 @@
+/*
+ * Copyright (C) 2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * This is a part of the inputmethod-common static Java library.
+ * The original source code can be found at frameworks/opt/inputmethodcommon of Android Open Source
+ * Project.
+ */
+
 package com.android.inputmethodcommon;
-
-
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 
-import androidx.preference.Preference;
-import androidx.preference.PreferenceScreen;
-
 import java.util.List;
 
-class InputMethodSettingsImpl implements InputMethodSettingsInterface {
+/* package private */ class InputMethodSettingsImpl implements InputMethodSettingsInterface {
     private Preference mSubtypeEnablerPreference;
+    private int mInputMethodSettingsCategoryTitleRes;
+    private CharSequence mInputMethodSettingsCategoryTitle;
     private int mSubtypeEnablerTitleRes;
     private CharSequence mSubtypeEnablerTitle;
     private int mSubtypeEnablerIconRes;
@@ -41,19 +63,22 @@ class InputMethodSettingsImpl implements InputMethodSettingsInterface {
         }
         mSubtypeEnablerPreference = new Preference(context);
         mSubtypeEnablerPreference
-                .setOnPreferenceClickListener(preference -> {
-                    final CharSequence title = getSubtypeEnablerTitle(context);
-                    final Intent intent =
-                            new Intent(Settings.ACTION_INPUT_METHOD_SUBTYPE_SETTINGS);
-                    intent.putExtra(Settings.EXTRA_INPUT_METHOD_ID, mImi.getId());
-                    if (!TextUtils.isEmpty(title)) {
-                        intent.putExtra(Intent.EXTRA_TITLE, title);
+                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        final CharSequence title = getSubtypeEnablerTitle(context);
+                        final Intent intent =
+                                new Intent(Settings.ACTION_INPUT_METHOD_SUBTYPE_SETTINGS);
+                        intent.putExtra(Settings.EXTRA_INPUT_METHOD_ID, mImi.getId());
+                        if (!TextUtils.isEmpty(title)) {
+                            intent.putExtra(Intent.EXTRA_TITLE, title);
+                        }
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                        return true;
                     }
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                            | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(intent);
-                    return true;
                 });
         prefScreen.addPreference(mSubtypeEnablerPreference);
         updateSubtypeEnabler();
@@ -92,6 +117,7 @@ class InputMethodSettingsImpl implements InputMethodSettingsInterface {
      */
     @Override
     public void setInputMethodSettingsCategoryTitle(int resId) {
+        mInputMethodSettingsCategoryTitleRes = resId;
         updateSubtypeEnabler();
     }
 
@@ -100,6 +126,8 @@ class InputMethodSettingsImpl implements InputMethodSettingsInterface {
      */
     @Override
     public void setInputMethodSettingsCategoryTitle(CharSequence title) {
+        mInputMethodSettingsCategoryTitleRes = 0;
+        mInputMethodSettingsCategoryTitle = title;
         updateSubtypeEnabler();
     }
 

@@ -1,13 +1,12 @@
 package com.blackcj.customkeyboard;
 
 import android.inputmethodservice.InputMethodService;
-import com.android.inputmethodservice.Keyboard;
-import com.android.inputmethodservice.KeyboardView;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
@@ -18,7 +17,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     private InputMethodManager mInputMethodManager;
     private LatinKeyboardView mInputView;
     
-    private final StringBuilder mComposing = new StringBuilder();
+    private StringBuilder mComposing = new StringBuilder();
     private int mLastDisplayWidth;
 
     private LatinKeyboard mSymbolsKeyboard;
@@ -57,7 +56,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     @Override
     public View onCreateInputView() {
         mInputView = (LatinKeyboardView) getLayoutInflater().inflate(
-                R.layout.input, (ViewGroup) mInputView.getParent(), false);
+                R.layout.input, null);
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setPreviewEnabled(false);
         setLatinKeyboard(mQwertyKeyboard);
@@ -76,8 +75,14 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
+                mCurKeyboard = mSymbolsKeyboard;
+                break;
             case InputType.TYPE_CLASS_PHONE:
                 mCurKeyboard = mSymbolsKeyboard;
+                break;
+            case InputType.TYPE_CLASS_TEXT:
+                mCurKeyboard = mQwertyKeyboard;
+                updateShiftKeyState(attribute);
                 break;
             default:
                 mCurKeyboard = mQwertyKeyboard;
@@ -164,13 +169,16 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     }
 
     private void sendKey(int keyCode) {
-        if (keyCode == '\n')
-            keyDownUp(KeyEvent.KEYCODE_ENTER);
-        else {
-            if (keyCode >= '0' && keyCode <= '9')
-                keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
-            else
-                getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
+        switch (keyCode) {
+            case '\n':
+                keyDownUp(KeyEvent.KEYCODE_ENTER);
+                break;
+            default:
+                if (keyCode >= '0' && keyCode <= '9')
+                    keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
+                else
+                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
+                break;
         }
     }
 
@@ -208,7 +216,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
     }
 
-    /*@Override
+    @Override
     public void onText(CharSequence text) {
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
@@ -219,7 +227,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         ic.commitText(text, 0);
         ic.endBatchEdit();
         updateShiftKeyState(getCurrentInputEditorInfo());
-    }*/
+    }
     
     private void handleBackspace() {
         final int length = mComposing.length();
@@ -282,7 +290,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
     private int pressedCode;
 
-    /*@Override
+    @Override
     public void onPress(int primaryCode) {
         this.pressedCode = primaryCode;
     }
@@ -290,6 +298,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     @Override
     public void onRelease(int primaryCode) {
 
-    }*/
+    }
 
 }

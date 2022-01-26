@@ -1,5 +1,13 @@
 package com.blackcj.customkeyboard;
 
+import static java.security.AccessController.getContext;
+
+import android.app.Activity;
+import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+
+import java.util.Arrays;
+
 public enum Keys {
 
     TOP_LEFT(65,' ', ' ', ' ',' ', '1'),
@@ -13,7 +21,7 @@ public enum Keys {
     BOTTOM_RIGHT(73,'w','x','y','z','9'),
     SPECIAL_LEFT(74,'-','/','_','@','*'),
     SPECIAL_CENTER(75,'.','!',',','?','0'),
-    SPECIAL_RIGHT(76,' ',' ',' ',' ', ' '),
+    SPECIAL_RIGHT(76,' ',' ',' ',' '),
     SYMBOL_TOP_LEFT(77, '[', '#', ']', '&', '1'),
     SYMBOL_TOP_CENTER(78, '(', '=', ')', '+', '2'),
     SYMBOL_TOP_RIGHT(79, '`', '\'', '´', '"', '3'),
@@ -26,16 +34,21 @@ public enum Keys {
 
     public static int KEYCODE_START = 65;
     private boolean shifted = false;
-    private final int keyCode;
-    private final Character west, north, east, south, backSymbol;
+    private int keyCode;
+    private Character west, north, east, south, backSymbol;
 
-    Keys(int keyCode, Character west, Character north, Character east, Character south, Character backSymbol) {
+    private Keys(int keyCode, Character west, Character north, Character east, Character south, Character backSymbol) {
+        this(keyCode, west, north, east, south);
+        this.backSymbol = backSymbol;
+    }
+
+    private Keys(int keyCode, Character west, Character north, Character east, Character south) {
         this.keyCode = keyCode;
         this.west = west;
         this.north = north;
         this.east = east;
         this.south = south;
-        this.backSymbol = backSymbol;
+        this.backSymbol = ' ';
     }
 
     public Keys setShifted(boolean shift) {
