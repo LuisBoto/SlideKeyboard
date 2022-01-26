@@ -16,35 +16,32 @@
 
 package com.blackcj.customkeyboard;
 
+import static android.preference.PreferenceActivity.EXTRA_NO_HEADERS;
+import static android.preference.PreferenceActivity.EXTRA_SHOW_FRAGMENT;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.inputmethodcommon.InputMethodSettingsFragment;
 
 /**
  * Displays the IME preferences inside the input method setting.
  */
-public class ImePreferences extends PreferenceActivity {
-    @Override
-    public Intent getIntent() {
-        final Intent modIntent = new Intent(super.getIntent());
-        modIntent.putExtra(EXTRA_SHOW_FRAGMENT, Settings.class.getName());
-        modIntent.putExtra(EXTRA_NO_HEADERS, true);
-        return modIntent;
-    }
+public class ImePreferences extends PreferenceFragmentCompat {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // We overwrite the title of the activity, as the default one is "Voice Search".
-        setTitle(R.string.settings_name);
+        //setTitle(R.string.settings_name);
     }
 
     @Override
-    protected boolean isValidFragment(final String fragmentName) {
-        return Settings.class.getName().equals(fragmentName);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        this.onCreate(savedInstanceState);
     }
 
     public static class Settings extends InputMethodSettingsFragment {
@@ -53,8 +50,6 @@ public class ImePreferences extends PreferenceActivity {
             super.onCreate(savedInstanceState);
             setInputMethodSettingsCategoryTitle(R.string.language_selection_title);
             setSubtypeEnablerTitle(R.string.select_language);
-
-            // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.ime_preferences);
         }
 

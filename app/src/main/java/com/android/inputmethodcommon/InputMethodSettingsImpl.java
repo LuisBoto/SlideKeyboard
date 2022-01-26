@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * This is a part of the inputmethod-common static Java library.
- * The original source code can be found at frameworks/opt/inputmethodcommon of Android Open Source
- * Project.
- */
-
 package com.android.inputmethodcommon;
 
 import android.content.Context;
