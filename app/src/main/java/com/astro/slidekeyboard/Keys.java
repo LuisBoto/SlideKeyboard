@@ -1,12 +1,4 @@
-package com.blackcj.customkeyboard;
-
-import static java.security.AccessController.getContext;
-
-import android.app.Activity;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
-
-import java.util.Arrays;
+package com.astro.slidekeyboard;
 
 public enum Keys {
 

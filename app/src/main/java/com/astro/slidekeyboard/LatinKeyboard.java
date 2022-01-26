@@ -1,4 +1,4 @@
-package com.blackcj.customkeyboard;
+package com.astro.slidekeyboard;
 
 import android.content.Context;
 import android.content.res.Resources;

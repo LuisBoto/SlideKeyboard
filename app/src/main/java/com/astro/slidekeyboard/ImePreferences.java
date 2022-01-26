@@ -1,4 +1,4 @@
-package com.blackcj.customkeyboard;
+package com.astro.slidekeyboard;
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
 import com.android.inputmethodcommon.InputMethodSettingsFragment;
