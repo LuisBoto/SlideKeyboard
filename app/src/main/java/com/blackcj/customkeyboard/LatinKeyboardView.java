@@ -1,24 +1,5 @@
-/*
- * Copyright (C) 2008-2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.blackcj.customkeyboard;
 
-import static java.security.AccessController.getContext;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -28,28 +9,26 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodSubtype;
 
 import java.util.List;
 
 public class LatinKeyboardView extends KeyboardView {
 
+    private Paint paint;
     static final int KEYCODE_OPTIONS = -100;
     private float pressedOnX, pressedOnY;
     private int swipedDirection, lastDirection;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.paint = new Paint();
     }
 
     public LatinKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.paint = new Paint();
     }
 
     public boolean onTouchEvent(MotionEvent me) {
@@ -104,10 +83,9 @@ public class LatinKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Paint paint = new Paint();
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(65);
-        paint.setColor(Color.WHITE);
+        this.paint.setTextAlign(Paint.Align.CENTER);
+        this.paint.setTextSize(65);
+        this.paint.setColor(Color.WHITE);
 
         List<Key> keys = getKeyboard().getKeys();
         int centerX, centerY;
@@ -116,12 +94,12 @@ public class LatinKeyboardView extends KeyboardView {
                 centerX = key.x + key.width/2;
                 centerY = key.y + key.height/2;
                 Keys actualKey = Keys.getKeyForCode(key.codes[0]).setShifted(isShifted());
-                canvas.drawText(String.valueOf(actualKey.getNorth()), centerX, centerY - (key.height/4), paint);
+                canvas.drawText(String.valueOf(actualKey.getNorth()), centerX, centerY - (key.height/4), this.paint);
                 centerY = centerY + key.height/8;
-                canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/4), centerY, paint);
-                canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/4), centerY, paint);
+                canvas.drawText(String.valueOf(actualKey.getWest()), centerX - (key.width/4), centerY, this.paint);
+                canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/4), centerY, this.paint);
                 centerY = centerY + key.height/16;
-                canvas.drawText(String.valueOf(actualKey.getSouth()), centerX, centerY + (key.height/4), paint);
+                canvas.drawText(String.valueOf(actualKey.getSouth()), centerX, centerY + (key.height/4), this.paint);
                 //canvas.drawText(String.valueOf(actualKey.getBackSymbol()), centerX, centerY, paint);
             }
         }

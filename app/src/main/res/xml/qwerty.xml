@@ -22,7 +22,7 @@
     android:keyWidth="25%p"
     android:horizontalGap="10px"
     android:verticalGap="10px"
-    android:keyHeight="9%p">
+    android:keyHeight="10%p">
 
     <Row android:rowEdgeFlags="top">
         <Key android:codes="65" android:keyIcon="@drawable/icon_n1" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
@@ -43,7 +43,7 @@
         <Key android:codes="71" android:keyIcon="@drawable/icon_n7" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="72" android:keyIcon="@drawable/icon_n8" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="73" android:keyIcon="@drawable/icon_n9" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="-1,-2" android:keyIcon="@drawable/sym_keyboard_shift"
+        <Key android:codes="-1" android:keyIcon="@drawable/sym_keyboard_shift"
             android:horizontalGap="2%p" android:keyWidth="18%p" android:isModifier="true"
                 android:isSticky="true" android:keyEdgeFlags="right"/>
     </Row>

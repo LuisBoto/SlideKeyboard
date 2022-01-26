@@ -80,11 +80,11 @@ public enum Keys {
         return this.backSymbol;
     }
 
-    private static final int DIRECTION_UP = 0;
-    private static final int DIRECTION_LEFT = 1;
-    private static final int DIRECTION_RIGHT = 2;
-    private static final int DIRECTION_DOWN = 3;
-    private static final int NO_DIRECTION = 4;
+    protected static final int DIRECTION_UP = 0;
+    protected static final int DIRECTION_LEFT = 1;
+    protected static final int DIRECTION_RIGHT = 2;
+    protected static final int DIRECTION_DOWN = 3;
+    protected static final int NO_DIRECTION = 4;
 
     public int getCodeFor(int direction) {
         switch (direction) {
