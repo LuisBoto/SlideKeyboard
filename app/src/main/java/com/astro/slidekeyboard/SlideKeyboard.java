@@ -12,6 +12,8 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 
+import com.android.inputmethodcommon.InputTypeUtils;
+
 public class SlideKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private InputMethodManager mInputMethodManager;
@@ -169,17 +171,20 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     }
 
     private void sendKey(int keyCode) {
-        switch (keyCode) {
-            case '\n':
+        final EditorInfo editorInfo = getCurrentInputEditorInfo();
+        final int imeOptionsActionId = InputTypeUtils.getImeOptionsActionIdFromEditorInfo(editorInfo);
+        if (keyCode == '\n') { // Special case handling new line as well as input submit
+            if (imeOptionsActionId == InputTypeUtils.IME_ACTION_CUSTOM_LABEL)
+                getCurrentInputConnection().performEditorAction(editorInfo.actionId);
+            else if (imeOptionsActionId != EditorInfo.IME_ACTION_NONE)
+                getCurrentInputConnection().performEditorAction(imeOptionsActionId);
+            else
                 keyDownUp(KeyEvent.KEYCODE_ENTER);
-                break;
-            default:
-                if (keyCode >= '0' && keyCode <= '9')
-                    keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
-                else
-                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
-                break;
-        }
+        } else {
+            if (keyCode >= '0' && keyCode <= '9')
+                keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
+            else
+                getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);}
     }
 
     // *** Implementation of KeyboardViewListener *************************
