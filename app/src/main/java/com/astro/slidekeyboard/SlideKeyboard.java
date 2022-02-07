@@ -174,9 +174,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         final EditorInfo editorInfo = getCurrentInputEditorInfo();
         final int imeOptionsActionId = InputTypeUtils.getImeOptionsActionIdFromEditorInfo(editorInfo);
         if (keyCode == '\n') { // Special case handling new line as well as input submit
-            if (imeOptionsActionId == InputTypeUtils.IME_ACTION_CUSTOM_LABEL)
-                getCurrentInputConnection().performEditorAction(editorInfo.actionId);
-            else if (imeOptionsActionId != EditorInfo.IME_ACTION_NONE)
+            if (imeOptionsActionId != EditorInfo.IME_ACTION_NONE)
                 getCurrentInputConnection().performEditorAction(imeOptionsActionId);
             else
                 keyDownUp(KeyEvent.KEYCODE_ENTER);

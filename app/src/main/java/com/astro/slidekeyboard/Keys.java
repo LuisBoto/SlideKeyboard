@@ -22,7 +22,9 @@ public enum Keys {
     SYMBOL_CENTER_RIGHT(82, '©','•','®','°','6'),
     SYMBOL_BOTTOM_LEFT(83, '¥','£','€','¢','7'),
     SYMBOL_BOTTOM_CENTER(84, '<','^','>','$','8'),
-    SYMBOL_BOTTOM_RIGHT(85, '|', '¡', '¿', '%', '9');
+    SYMBOL_BOTTOM_RIGHT(85, '|', '¡', '¿', '%', '9'),
+
+    NO_CHARACTER(0, Character.MIN_VALUE,Character.MIN_VALUE,Character.MIN_VALUE,Character.MIN_VALUE,Character.MIN_VALUE);
 
     public static int KEYCODE_START = 65;
     public static int KEYCODE_FINISH = 85;
@@ -115,7 +117,7 @@ public enum Keys {
         for (Keys key : Keys.values())
             if (key.getKeyCode() == keyCode)
                 return key;
-        return Keys.SPECIAL_RIGHT;
+        return Keys.NO_CHARACTER;
     }
 
     public static boolean isKeyCodeWithinMultikeys(int keycode) {
