@@ -9,14 +9,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
-import android.view.inputmethod.InputMethodSubtype;
 
 import com.android.inputmethodcommon.InputTypeUtils;
 
 public class SlideKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
-    private InputMethodManager mInputMethodManager;
     private LatinKeyboardView mInputView;
     
     private StringBuilder mComposing = new StringBuilder();
@@ -30,7 +27,6 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     @Override
     public void onCreate() {
         super.onCreate();
-        mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         mWordSeparators = getResources().getString(R.string.word_separators);
     }
     
@@ -77,14 +73,8 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
-                mCurKeyboard = mSymbolsKeyboard;
-                break;
             case InputType.TYPE_CLASS_PHONE:
                 mCurKeyboard = mSymbolsKeyboard;
-                break;
-            case InputType.TYPE_CLASS_TEXT:
-                mCurKeyboard = mQwertyKeyboard;
-                updateShiftKeyState(attribute);
                 break;
             default:
                 mCurKeyboard = mQwertyKeyboard;
@@ -108,13 +98,6 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         super.onStartInputView(attribute, restarting);
         setLatinKeyboard(mCurKeyboard);
         mInputView.closing();
-        final InputMethodSubtype subtype = mInputMethodManager.getCurrentInputMethodSubtype();
-        mInputView.setSubtypeOnSpaceKey(subtype);
-    }
-
-    @Override
-    public void onCurrentInputMethodSubtypeChanged(InputMethodSubtype subtype) {
-        mInputView.setSubtypeOnSpaceKey(subtype);
     }
 
     @Override

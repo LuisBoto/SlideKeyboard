@@ -10,7 +10,6 @@ import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.inputmethod.InputMethodSubtype;
 
 import java.util.List;
 
@@ -71,12 +70,6 @@ public class LatinKeyboardView extends KeyboardView {
             return true;
         }
         return super.onLongPress(key);
-    }
-
-    void setSubtypeOnSpaceKey(final InputMethodSubtype subtype) {
-        final LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
-        //keyboard.setSpaceIcon(getResources().getDrawable(subtype.getIconResId()));
-        invalidateAllKeys();
     }
 
     @Override
