@@ -93,7 +93,6 @@ public class LatinKeyboardView extends KeyboardView {
                 canvas.drawText(String.valueOf(actualKey.getEast()), centerX + (key.width/4F), centerY, this.paint);
                 centerY = centerY + key.height/16F;
                 canvas.drawText(String.valueOf(actualKey.getSouth()), centerX, centerY + (key.height/4F), this.paint);
-                //canvas.drawText(String.valueOf(actualKey.getBackSymbol()), centerX, centerY, paint);
             }
         }
     }

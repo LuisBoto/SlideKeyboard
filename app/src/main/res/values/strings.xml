@@ -41,7 +41,6 @@
 
     <!-- Labels for subtype -->
     <string name="label_subtype_generic">%s</string>
-    <string name="label_subtype_en_GB">English (GB)</string>
 
     <!-- Titles for ImePreference -->
     <string name="settings_name">Slide Keyboard Settings</string>
