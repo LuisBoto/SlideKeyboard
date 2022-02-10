@@ -16,7 +16,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
 
     private LatinKeyboardView mInputView;
     
-    private StringBuilder mComposing = new StringBuilder();
+    private final StringBuilder mComposing = new StringBuilder();
     private int mLastDisplayWidth;
 
     private LatinKeyboard mSymbolsKeyboard;
@@ -250,7 +250,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         requestHideSelf(0);
         mInputView.closing();
     }
-    
+
     public boolean isWordSeparator(int code) {
         return mWordSeparators.contains(String.valueOf((char)code));
     }
@@ -283,8 +283,6 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     }
 
     @Override
-    public void onRelease(int primaryCode) {
-
-    }
+    public void onRelease(int primaryCode) {}
 
 }

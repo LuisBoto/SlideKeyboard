@@ -18,11 +18,6 @@ public class LatinKeyboard extends Keyboard {
         super(context, xmlLayoutResId);
     }
 
-    public LatinKeyboard(Context context, int layoutTemplateResId, 
-            CharSequence characters, int columns, int horizontalPadding) {
-        super(context, layoutTemplateResId, characters, columns, horizontalPadding);
-    }
-
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y, 
             XmlResourceParser parser) {
@@ -62,12 +57,6 @@ public class LatinKeyboard extends Keyboard {
                 mEnterKey.icon = ResourcesCompat.getDrawable(res, R.drawable.sym_keyboard_return, null);
                 mEnterKey.label = null;
                 break;
-        }
-    }
-
-    void setSpaceIcon(final Drawable icon) {
-        if (mSpaceKey != null) {
-            mSpaceKey.icon = icon;
         }
     }
 

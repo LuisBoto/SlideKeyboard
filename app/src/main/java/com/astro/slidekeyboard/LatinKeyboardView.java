@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
@@ -16,7 +15,6 @@ import java.util.List;
 public class LatinKeyboardView extends KeyboardView {
 
     private final Paint paint;
-    static final int KEYCODE_OPTIONS = -100;
     private float pressedOnX, pressedOnY;
     private int swipedDirection, lastDirection;
 
@@ -61,15 +59,6 @@ public class LatinKeyboardView extends KeyboardView {
 
     public int getSwipedDirection() {
         return this.swipedDirection;
-    }
-
-    @Override
-    protected boolean onLongPress(Key key) {
-        if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
-            getOnKeyboardActionListener().onKey(KEYCODE_OPTIONS, null);
-            return true;
-        }
-        return super.onLongPress(key);
     }
 
     @Override
