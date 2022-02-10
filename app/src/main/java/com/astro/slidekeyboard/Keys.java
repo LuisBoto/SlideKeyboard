@@ -4,12 +4,12 @@ public enum Keys {
 
     TOP_LEFT(65,' ', ' ', ' ',' ', '1'),
     TOP_CENTER(66,'a','b','c','ç','2'),
-    TOP_RIGHT(67,'d','e','f',Character.MIN_VALUE,'3'),
-    CENTER_LEFT(68,'g', 'h', 'i', Character.MIN_VALUE, '4'),
-    CENTER_CENTER(69,'j','k','l',Character.MIN_VALUE, '5'),
+    TOP_RIGHT(67,'d','e','f',' ','3'),
+    CENTER_LEFT(68,'g', 'h', 'i', ' ', '4'),
+    CENTER_CENTER(69,'j','k','l',' ', '5'),
     CENTER_RIGHT(70,'m','n','o','ñ','6'),
     BOTTOM_LEFT(71,'p','q','r','s','7'),
-    BOTTOM_CENTER(72,'t','u','v',Character.MIN_VALUE,'8'),
+    BOTTOM_CENTER(72,'t','u','v',' ','8'),
     BOTTOM_RIGHT(73,'w','x','y','z','9'),
     SPECIAL_LEFT(74,'-','/','_','@','*'),
     SPECIAL_CENTER(75,'.','!',',','?','0'),
@@ -24,7 +24,7 @@ public enum Keys {
     SYMBOL_BOTTOM_CENTER(84, '<','^','>','$','8'),
     SYMBOL_BOTTOM_RIGHT(85, '|', '¡', '¿', '%', '9'),
 
-    NO_CHARACTER(0, Character.MIN_VALUE,Character.MIN_VALUE,Character.MIN_VALUE,Character.MIN_VALUE,Character.MIN_VALUE);
+    NO_CHARACTER(0, ' ',' ',' ', ' ', ' ');
 
     public static int KEYCODE_START = 65;
     public static int KEYCODE_FINISH = 85;
