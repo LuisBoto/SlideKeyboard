@@ -48,7 +48,7 @@
                 android:isSticky="true" android:keyEdgeFlags="right"/>
     </Row>
     
-    <Row android:rowEdgeFlags="bottom">
+    <Row android:rowEdgeFlags="bottom" android:verticalGap="4%p">
         <Key android:codes="74" android:keyIcon="@drawable/icon_asterisk" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="75" android:keyIcon="@drawable/icon_n0" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="76" android:keyIcon="@drawable/sym_keyboard_space" android:popupKeyboard="@xml/keyboard_popup_template"/>
