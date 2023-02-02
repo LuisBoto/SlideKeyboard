@@ -22,6 +22,7 @@ android {
         implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
         implementation "androidx.preference:preference:1.1.1"
     }
+    namespace 'com.astro.slidekeyboard'
 
 }
 
