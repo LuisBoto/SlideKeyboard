@@ -21,8 +21,11 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
 
     private LatinKeyboard mSymbolsKeyboard;
     private LatinKeyboard mQwertyKeyboard;
+    private LatinKeyboard mEmojiKeyboard;
     private LatinKeyboard mCurKeyboard;
     private String mWordSeparators;
+
+    private static final int EMOJI_KEYCODE = -69;
 
     @Override
     public void onCreate() {
@@ -43,6 +46,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         }
         mQwertyKeyboard = new LatinKeyboard(this, R.xml.qwerty);
         mSymbolsKeyboard = new LatinKeyboard(this, R.xml.symbols);
+        mEmojiKeyboard = new LatinKeyboard(this, R.xml.emoji);
     }
     
     /**
@@ -184,6 +188,9 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
             case Keyboard.KEYCODE_DELETE:
                 handleBackspace();
                 break;
+            case EMOJI_KEYCODE:
+                handleEmojiKey();
+                break;
             case Keyboard.KEYCODE_SHIFT:
                 handleShift();
                 break;
@@ -244,6 +251,13 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
             else
                 setLatinKeyboard(mSymbolsKeyboard);
         }
+    }
+
+    private void handleEmojiKey() {
+        if (mInputView.getKeyboard() == mQwertyKeyboard)
+            setLatinKeyboard(mEmojiKeyboard);
+        else
+            setLatinKeyboard(mQwertyKeyboard);
     }
 
     private void handleClose() {
