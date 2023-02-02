@@ -37,7 +37,7 @@
         <Key android:codes="90" android:keyIcon="@drawable/icon_n4" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="91" android:keyIcon="@drawable/icon_n5" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="92" android:keyIcon="@drawable/icon_n6" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="-69" android:keyIcon="@drawable/sym_keyboard_shift"
+        <Key android:codes="-69" android:keyLabel="🤓"
             android:horizontalGap="2%p" android:keyWidth="18%p" android:isModifier="true"
             android:isSticky="true" android:keyEdgeFlags="right"/>
     </Row>
