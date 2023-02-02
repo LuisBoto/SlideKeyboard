@@ -196,11 +196,12 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     }
 
     private void handleSwipedCharacter(int primaryCode) {
+        String retrievedText = "";
         if (Keys.isKeyCodeWithinMultikeys(primaryCode))
-            primaryCode = Keys.getKeyForCode(primaryCode).getCodeFor(mInputView.getSwipedDirection());
+            retrievedText = Keys.getKeyForCode(primaryCode).getCodeFor(mInputView.getSwipedDirection());
         if (isInputViewShown() && mInputView.isShifted())
-            primaryCode = Character.toUpperCase(primaryCode);
-        getCurrentInputConnection().commitText(String.valueOf((char) primaryCode), 1);
+            retrievedText = retrievedText.toUpperCase();
+        getCurrentInputConnection().commitText(retrievedText, 1);
     }
 
     @Override
