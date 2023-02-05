@@ -176,14 +176,6 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        Log.d("Test","KEYCODE: " + primaryCode);
-        if (isWordSeparator(primaryCode)) {
-            if (mComposing.length() > 0)
-                commitTyped(getCurrentInputConnection());
-            sendKey(primaryCode);
-            updateShiftKeyState(getCurrentInputEditorInfo());
-            return;
-        }
         switch(primaryCode) {
             case Keyboard.KEYCODE_DELETE:
                 handleBackspace();
@@ -197,15 +189,22 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
             case Keyboard.KEYCODE_CANCEL:
                 handleClose();
                 break;
-            default:
-                handleSwipedCharacter(primaryCode);
+        }
+        if (Keys.isKeyCodeWithinMultikeys(primaryCode)) {
+            handleSwipedCharacter(primaryCode);
+            return;
+        }
+        if (isWordSeparator(primaryCode)) {
+            if (mComposing.length() > 0)
+                commitTyped(getCurrentInputConnection());
+            sendKey(primaryCode);
+            updateShiftKeyState(getCurrentInputEditorInfo());
+            return;
         }
     }
 
     private void handleSwipedCharacter(int primaryCode) {
-        String retrievedText = "";
-        if (Keys.isKeyCodeWithinMultikeys(primaryCode))
-            retrievedText = Keys.getKeyForCode(primaryCode).getCodeFor(mInputView.getSwipedDirection());
+        String retrievedText = Keys.getKeyForCode(primaryCode).getCodeFor(mInputView.getSwipedDirection());
         if (isInputViewShown() && mInputView.isShifted())
             retrievedText = retrievedText.toUpperCase();
         getCurrentInputConnection().commitText(retrievedText, 1);
