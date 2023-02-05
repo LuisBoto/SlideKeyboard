@@ -253,10 +253,10 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     }
 
     private void handleEmojiKey() {
-        if (mInputView.getKeyboard() == mQwertyKeyboard)
-            setLatinKeyboard(mEmojiKeyboard);
-        else
+        if (mInputView.getKeyboard() == mEmojiKeyboard)
             setLatinKeyboard(mQwertyKeyboard);
+        else
+            setLatinKeyboard(mEmojiKeyboard);
     }
 
     private void handleClose() {
