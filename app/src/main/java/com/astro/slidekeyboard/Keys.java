@@ -27,17 +27,17 @@ public enum Keys {
     SYMBOL_SPECIAL_RIGHT(86, "{", " ", "}", " "),
 
     EMOJI_TOP_LEFT(87,"\uD83D\uDE03", "\uD83E\uDD23", "\uD83D\uDE02","\uD83D\uDE0A", "1"),
-    EMOJI_TOP_CENTER(88,"a","b","c","ç","2"),
-    EMOJI_TOP_RIGHT(89,"d","e","f"," ","3"),
-    EMOJI_CENTER_LEFT(90,"g", "h", "i", " ", "4"),
-    EMOJI_CENTER_CENTER(91,"j","k","l"," ", "5"),
-    EMOJI_CENTER_RIGHT(92,"m","n","o","ñ","6"),
-    EMOJI_BOTTOM_LEFT(93,"p","q","r","s","7"),
-    EMOJI_BOTTOM_CENTER(94,"t","u","v"," ","8"),
-    EMOJI_BOTTOM_RIGHT(95,"w","x","y","z","9"),
-    EMOJI_SPECIAL_LEFT(96,"-","/","_","@","*"),
-    EMOJI_SPECIAL_CENTER(97,".","!",",","?","0"),
-    EMOJI_SPECIAL_RIGHT(98," "," "," "," "),
+    EMOJI_TOP_CENTER(88,"\uD83D\uDE07","\uD83E\uDD70","\uD83D\uDE0D","\uD83E\uDD17","2"),
+    EMOJI_TOP_RIGHT(89,"\uD83E\uDD14","\uD83E\uDD28","\uD83D\uDE0F","☺️","3"),
+    EMOJI_CENTER_LEFT(90,"\uD83D\uDE0C", "\uD83E\uDD24", "\uD83D\uDE0E", "\uD83D\uDE1A", "4"),
+    EMOJI_CENTER_CENTER(91,"\uD83E\uDD7A","\uD83D\uDE28","\uD83D\uDE31","\uD83D\uDE1E", "5"),
+    EMOJI_CENTER_RIGHT(92,"\uD83D\uDC80","\uD83E\uDD21","\uD83D\uDC4C","\uD83D\uDC4D","6"),
+    EMOJI_BOTTOM_LEFT(93,"\uD83D\uDC4F","\uD83D\uDE4C","\uD83D\uDE4F","\uD83D\uDC40","7"),
+    EMOJI_BOTTOM_CENTER(94,"\uD83D\uDCA5","\uD83D\uDCA6","\uD83C\uDF1A","✨","8"),
+    EMOJI_BOTTOM_RIGHT(95,"\uD83D\uDC49","\uD83C\uDF08","\uD83D\uDC48","\uD83E\uDEC2","9"),
+    EMOJI_SPECIAL_LEFT(96,"\uD83D\uDD2A","\uD83D\uDCB8","\uD83D\uDD2B","\uD83D\uDCAF","*"),
+    EMOJI_SPECIAL_CENTER(97,"\uD83D\uDC9B","❤️","\uD83D\uDC9D","\uD83D\uDC95","0"),
+    EMOJI_SPECIAL_RIGHT(98,"✅","\uD83D\uDD1D"," "," "),
 
     NO_CHARACTER(0, " "," "," ", " ", " ");
 
