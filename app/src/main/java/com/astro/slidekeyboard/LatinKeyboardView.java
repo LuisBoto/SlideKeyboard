@@ -14,19 +14,11 @@ import android.view.MotionEvent;
 import java.util.List;
 
 public class LatinKeyboardView extends KeyboardView {
-
-    private final Paint paint;
     private float pressedOnX, pressedOnY;
     private int swipedDirection, lastDirection;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.paint = new Paint();
-    }
-
-    public LatinKeyboardView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        this.paint = new Paint();
     }
 
     public boolean onTouchEvent(MotionEvent me) {
@@ -66,16 +58,8 @@ public class LatinKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        this.paint.setTextAlign(Paint.Align.CENTER);
-        this.paint.setTextSize(65);
-        this.paint.setColor(Color.WHITE);
-
-        Paint bgPaint = new Paint();
-        bgPaint.setTextAlign(Paint.Align.CENTER);
-        bgPaint.setTextSize(100);
-        bgPaint.setTypeface(Typeface.DEFAULT_BOLD);
-        bgPaint.setColor(Color.rgb(180, 175, 69));
-
+        Paint paint = getNormalCharacterPaint();
+        Paint bgPaint = getBackgroundCharacterPaint();
         List<Key> keys = getKeyboard().getKeys();
         float centerX, centerY;
         for(Key key: keys) {
@@ -84,17 +68,32 @@ public class LatinKeyboardView extends KeyboardView {
                 centerX = key.x + key.width/2F;
                 centerY = key.y + key.height/2F;
                 canvas.drawText(actualKey.getBackSymbol(), centerX, centerY + (key.height/7F), bgPaint);
-
-                canvas.drawText(actualKey.getNorth(), centerX, centerY - (key.height/4F), this.paint);
+                canvas.drawText(actualKey.getNorth(), centerX, centerY - (key.height/4F), paint);
 
                 centerY = centerY + key.height/8F;
-                canvas.drawText(actualKey.getWest(), centerX - (key.width/4F), centerY, this.paint);
-                canvas.drawText(actualKey.getEast(), centerX + (key.width/4F), centerY, this.paint);
+                canvas.drawText(actualKey.getWest(), centerX - (key.width/4F), centerY, paint);
+                canvas.drawText(actualKey.getEast(), centerX + (key.width/4F), centerY, paint);
 
-                centerY = centerY + key.height/16F;
-                canvas.drawText(actualKey.getSouth(), centerX, centerY + (key.height/4F), this.paint);
+                canvas.drawText(actualKey.getSouth(), centerX, centerY + (5*key.height/16F), paint);
             }
         }
+    }
+
+    private Paint getNormalCharacterPaint() {
+        Paint paint = new Paint();
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(65);
+        paint.setColor(Color.WHITE);
+        return paint;
+    }
+
+    private Paint getBackgroundCharacterPaint() {
+        Paint bgPaint = new Paint();
+        bgPaint.setTextAlign(Paint.Align.CENTER);
+        bgPaint.setTextSize(100);
+        bgPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        bgPaint.setColor(Color.rgb(180, 175, 69));
+        return bgPaint;
     }
 
 }
