@@ -179,28 +179,25 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         switch(primaryCode) {
             case Keyboard.KEYCODE_DELETE:
                 handleBackspace();
-                break;
+                return;
             case EMOJI_KEYCODE:
                 handleEmojiKey();
-                break;
+                return;
             case Keyboard.KEYCODE_SHIFT:
                 handleShift();
-                break;
+                return;
             case Keyboard.KEYCODE_CANCEL:
                 handleClose();
-                break;
+                return;
         }
         if (Keys.isKeyCodeWithinMultikeys(primaryCode)) {
             handleSwipedCharacter(primaryCode);
             return;
         }
-        if (isWordSeparator(primaryCode)) {
-            if (mComposing.length() > 0)
-                commitTyped(getCurrentInputConnection());
-            sendKey(primaryCode);
-            updateShiftKeyState(getCurrentInputEditorInfo());
-            return;
-        }
+        if (isWordSeparator(primaryCode) && mComposing.length() > 0)
+            commitTyped(getCurrentInputConnection());
+        sendKey(mInputView.isShifted() ? Character.toUpperCase(primaryCode) : primaryCode);
+        updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
     private void handleSwipedCharacter(int primaryCode) {
