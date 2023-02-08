@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat;
 public class LatinKeyboard extends Keyboard {
 
     private Key mEnterKey;
+    private Key mShiftKey;
     private Key mSpaceKey;
 
     public LatinKeyboard(Context context, int xmlLayoutResId) {
@@ -24,9 +25,17 @@ public class LatinKeyboard extends Keyboard {
         Key key = new LatinKey(res, parent, x, y, parser);
         if (key.codes[0] == 10)
             mEnterKey = key;
+        if (key.codes[0] == KEYCODE_SHIFT)
+            mShiftKey = key;
         if (key.codes[0] == ' ')
             mSpaceKey = key;
         return key;
+    }
+
+    public void changeToggleShiftIcon(Resources res, boolean toggled) {
+        mShiftKey.icon = toggled ?
+                ResourcesCompat.getDrawable(res, R.drawable.sym_keyboard_shift_toggled, null)
+                : ResourcesCompat.getDrawable(res, R.drawable.sym_keyboard_shift, null);
     }
 
     void setImeOptions(Resources res, int options) {
