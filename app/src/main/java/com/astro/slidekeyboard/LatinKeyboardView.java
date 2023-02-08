@@ -90,7 +90,7 @@ public class LatinKeyboardView extends KeyboardView {
     private Paint getBackgroundCharacterPaint() {
         Paint bgPaint = new Paint();
         bgPaint.setTextAlign(Paint.Align.CENTER);
-        bgPaint.setTextSize(100);
+        bgPaint.setTextSize(65);
         bgPaint.setTypeface(Typeface.DEFAULT_BOLD);
         bgPaint.setColor(Color.rgb(180, 175, 69));
         return bgPaint;
