@@ -46,7 +46,7 @@
         <Key android:codes="83" android:keyIcon="@drawable/icon_empty" android:horizontalGap="5%p" android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="84" android:keyIcon="@drawable/icon_empty" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="85" android:keyIcon="@drawable/icon_empty" android:popupKeyboard="@xml/keyboard_popup_template"/>
-        <Key android:codes="-1" android:keyIcon="@drawable/sym_keyboard_shift"
+        <Key android:codes="-1" android:keyIcon="@drawable/sym_keyboard_qwerty"
             android:horizontalGap="2%p" android:keyWidth="18%p" android:isModifier="true"
             android:isSticky="true" android:keyEdgeFlags="right"/>
     </Row>

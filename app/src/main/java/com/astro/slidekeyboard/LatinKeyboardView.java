@@ -67,10 +67,10 @@ public class LatinKeyboardView extends KeyboardView {
                 Keys actualKey = Keys.getKeyForCode(key.codes[0]).setShifted(isShifted());
                 centerX = key.x + key.width/2F;
                 centerY = key.y + key.height/2F;
-                canvas.drawText(actualKey.getBackSymbol(), centerX, centerY + (key.height/7F), bgPaint);
                 canvas.drawText(actualKey.getNorth(), centerX, centerY - (key.height/4F), paint);
 
                 centerY = centerY + key.height/8F;
+                canvas.drawText(actualKey.getBackSymbol(), centerX, centerY, bgPaint);
                 canvas.drawText(actualKey.getWest(), centerX - (key.width/4F), centerY, paint);
                 canvas.drawText(actualKey.getEast(), centerX + (key.width/4F), centerY, paint);
 

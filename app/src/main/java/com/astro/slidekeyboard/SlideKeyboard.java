@@ -148,7 +148,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         if (ei != null && ei.inputType != InputType.TYPE_NULL)
             caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
         mInputView.setShifted(caps == 1);
-        mCurKeyboard.changeToggleShiftIcon(getResources(), mInputView.isShifted());
+        mCurKeyboard.changeToggleShiftIcon(getResources(), mQwertyKeyboard.isShifted());
     }
 
     private void keyDownUp(int keyEventCode) {
@@ -248,7 +248,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
             else
                 setLatinKeyboard(mSymbolsKeyboard);
         }
-        mCurKeyboard.changeToggleShiftIcon(getResources(), mInputView.isShifted());
+        mCurKeyboard.changeToggleShiftIcon(getResources(), mQwertyKeyboard.isShifted());
     }
 
     private void handleEmojiKey() {
