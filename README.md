@@ -2,6 +2,8 @@
 
 Android custom keyboard featuring a swipe input method, now with emoji support :heart:!
 
+This keyboard is inspired by [SlideTypeKeyboard](https://github.com/LatinSuD/slidetypekeyboard), a legacy Android implementation using the same key layout.
+
 ## Compact layout
 
 Each key holds up to 4 different characters, which are inputted by swiping in the corresponding direction.
