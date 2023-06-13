@@ -47,4 +47,12 @@
     <string name="language_selection_title">Input languages</string>
     <string name="select_language">Select input languages</string>
     <string name="general_category">General</string>
+
+    <string-array name="swipePercentages">
+        <item name="2">2%</item>
+        <item name="3">3%</item>
+        <item name="5">5%</item>
+        <item name="7">7%</item>
+        <item name="13">13%</item>
+    </string-array>
 </resources>

@@ -3,6 +3,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <application
+        android:theme="@style/AppTheme"
         android:allowBackup="true"
         android:fullBackupOnly="true"
         android:icon="@drawable/icon_asterisk"
@@ -10,7 +11,8 @@
         <activity android:name="com.astro.slidekeyboard.ImePreferences" android:label="@string/settings_name"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <service android:name="com.astro.slidekeyboard.SlideKeyboard"

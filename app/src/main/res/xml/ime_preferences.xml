@@ -16,4 +16,11 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         android:title="@string/settings_name">
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/swipePercentages"
+        android:entries="@array/swipePercentages"
+        android:entryValues="@array/swipePercentages"
+        android:key="multi_select_list_preference_1"
+        android:title="Swipe threshold" />
 </PreferenceScreen>
