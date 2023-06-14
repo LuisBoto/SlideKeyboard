@@ -11,13 +11,16 @@ public class ImePreferences extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.settings_name);
-
-        Settings settingsFragment = new Settings();
-        getSupportFragmentManager().beginTransaction().replace(R.id.keyboard, settingsFragment).commit();
-
+        setContentView(R.layout.settings);
     }
 
     public static class Settings extends InputMethodSettingsFragment {
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            this.onCreatePreferences(savedInstanceState, null);
+        }
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

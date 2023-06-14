@@ -21,6 +21,6 @@
         android:defaultValue="@array/swipePercentages"
         android:entries="@array/swipePercentages"
         android:entryValues="@array/swipePercentages"
-        android:key="multi_select_list_preference_1"
+        android:key="swipeThreshold"
         android:title="Swipe threshold" />
 </PreferenceScreen>
