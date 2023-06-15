@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/settings_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/preferencesFragment"
+        android:name="com.astro.slidekeyboard.ImePreferences$Settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center" />
+
+</LinearLayout>
+
