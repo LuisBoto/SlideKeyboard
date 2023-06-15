@@ -11,6 +11,8 @@ import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.preference.PreferenceManager;
+
 import java.util.List;
 
 public class LatinKeyboardView extends KeyboardView {
@@ -45,9 +47,11 @@ public class LatinKeyboardView extends KeyboardView {
     }
 
     private double getSwipeThreshold() {
+        String preferenceValue = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("list_swipe_threshold", null);
+        double threshold = preferenceValue == null ? 0.02 : Double.parseDouble(preferenceValue);
         return Math.min(
                 Resources.getSystem().getDisplayMetrics().heightPixels,
-                Resources.getSystem().getDisplayMetrics().widthPixels)*0.02;
+                Resources.getSystem().getDisplayMetrics().widthPixels)*threshold;
     }
 
     public int getSwipedDirection() {
