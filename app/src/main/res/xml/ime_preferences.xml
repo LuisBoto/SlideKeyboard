@@ -15,12 +15,16 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        android:title="@string/settings_name">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/settings_name">
 
-    <MultiSelectListPreference
-        android:defaultValue="@array/swipePercentages"
+    <ListPreference
+        android:defaultValue="1"
         android:entries="@array/swipePercentages"
-        android:entryValues="@array/swipePercentages"
-        android:key="swipeThreshold"
-        android:title="Swipe threshold" />
+        android:entryValues="@array/swipePercentageValues"
+        android:key="list_swipe_threshold"
+        android:title="Swipe threshold"
+        app:dialogIcon="@drawable/sym_keyboard_qwerty"
+        app:icon="@drawable/sym_keyboard_qwerty"
+        app:summary="How long a swipe must be to trigger an input" />
 </PreferenceScreen>

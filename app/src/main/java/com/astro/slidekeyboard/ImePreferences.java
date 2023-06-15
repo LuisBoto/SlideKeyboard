@@ -10,7 +10,6 @@ public class ImePreferences extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.settings_name);
         setContentView(R.layout.settings);
     }
 
@@ -24,8 +23,6 @@ public class ImePreferences extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setInputMethodSettingsCategoryTitle(R.string.language_selection_title);
-            setSubtypeEnablerTitle(R.string.select_language);
             addPreferencesFromResource(R.xml.ime_preferences);
         }
     }

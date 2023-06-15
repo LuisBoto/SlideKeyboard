@@ -55,4 +55,12 @@
         <item name="7">7%</item>
         <item name="13">13%</item>
     </string-array>
+
+    <string-array name="swipePercentageValues">
+        <item name="0.02">0.02</item>
+        <item name="0.03">0.03</item>
+        <item name="0.05">0.05</item>
+        <item name="0.07">0.07</item>
+        <item name="0.13">0.13</item>
+    </string-array>
 </resources>
