@@ -19,7 +19,7 @@
     android:title="@string/settings_name">
 
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="0.02"
         android:entries="@array/swipePercentages"
         android:entryValues="@array/swipePercentageValues"
         android:key="list_swipe_threshold"
