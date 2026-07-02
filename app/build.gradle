@@ -1,19 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 37
 
     defaultConfig {
         applicationId "com.astro.slidekeyboard"
         minSdkVersion 14
-        targetSdkVersion 33
+        targetSdkVersion 37
         versionCode 1
         versionName "2.2"
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     dependencies {
