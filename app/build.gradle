@@ -5,10 +5,10 @@ android {
 
     defaultConfig {
         applicationId "com.astro.slidekeyboard"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 37
         versionCode 1
-        versionName "2.2"
+        versionName "2.3"
     }
     buildTypes {
         release {
