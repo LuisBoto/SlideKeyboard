@@ -11,6 +11,8 @@ import android.view.inputmethod.InputConnection;
 
 import com.android.inputmethodcommon.InputTypeUtils;
 
+import java.util.List;
+
 public class SlideKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private LatinKeyboardView mInputView;
@@ -148,8 +150,6 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
                 getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);}
     }
 
-    // *** Implementation of KeyboardViewListener *************************
-
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         switch(primaryCode) {
@@ -213,11 +213,10 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     private void handleShift() {
         if (mInputView == null)
             return;
-        if (mInputView.getSwipedDirection() == Keys.DIRECTION_UP)
-            mInputView.setShifted(true);
-        if (mInputView.getSwipedDirection() == Keys.DIRECTION_DOWN)
-            mInputView.setShifted(false);
-        if (mInputView.getSwipedDirection() == Keys.NO_DIRECTION) {
+        var swipedDirection = mInputView.getSwipedDirection();
+        if (List.of(Keys.DIRECTION_UP, Keys.DIRECTION_DOWN).contains(swipedDirection))
+            mInputView.setShifted(swipedDirection == Keys.DIRECTION_UP);
+        if (swipedDirection == Keys.NO_DIRECTION) {
             if (mInputView.getKeyboard() == keyboardService.getSymbolKeyboard())
                 setLatinKeyboard(keyboardService.getQwertyKeyboard());
             else
