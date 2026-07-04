@@ -84,9 +84,10 @@ public class LatinKeyboardView extends KeyboardView {
     }
 
     private Paint getNormalCharacterPaint() {
+        int textSize = Resources.getSystem().getDisplayMetrics().widthPixels > 1300 ? 50 : 65;
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(65);
+        paint.setTextSize(textSize);
         paint.setColor(Color.WHITE);
         return paint;
     }

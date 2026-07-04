@@ -4,7 +4,6 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -17,11 +16,8 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     private LatinKeyboardView mInputView;
     
     private final StringBuilder mComposing = new StringBuilder();
-    private int mLastDisplayWidth;
 
-    private LatinKeyboard mSymbolsKeyboard;
-    private LatinKeyboard mQwertyKeyboard;
-    private LatinKeyboard mEmojiKeyboard;
+    private KeyboardService keyboardService;
     private LatinKeyboard mCurKeyboard;
     private String mWordSeparators;
 
@@ -32,36 +28,19 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         super.onCreate();
         mWordSeparators = getResources().getString(R.string.word_separators);
     }
-    
-    /**
-     * This is the point where you can do all of your UI initialization.  It
-     * is called after creation and any configuration change.
-     */
+
     @Override
     public void onInitializeInterface() {
-        if (mQwertyKeyboard != null) {
-            int displayWidth = getMaxWidth();
-            if (displayWidth == mLastDisplayWidth) return;
-            mLastDisplayWidth = displayWidth;
-        }
-        mQwertyKeyboard = new LatinKeyboard(this, R.xml.qwerty);
-        mSymbolsKeyboard = new LatinKeyboard(this, R.xml.symbols);
-        mEmojiKeyboard = new LatinKeyboard(this, R.xml.emoji);
+        this.keyboardService = new KeyboardService(this);
     }
-    
-    /**
-     * Called by the framework when your view for creating input needs to
-     * be generated.  This will be called the first time your input method
-     * is displayed, and every time it needs to be re-created such as due to
-     * a configuration change.
-     */
+
     @Override
     public View onCreateInputView() {
         mInputView = (LatinKeyboardView) getLayoutInflater().inflate(
                 R.layout.input, null);
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setPreviewEnabled(false);
-        setLatinKeyboard(mQwertyKeyboard);
+        setLatinKeyboard(keyboardService.getQwertyKeyboard());
         return mInputView;
     }
 
@@ -78,10 +57,10 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
             case InputType.TYPE_CLASS_PHONE:
-                mCurKeyboard = mSymbolsKeyboard;
+                mCurKeyboard = keyboardService.getSymbolKeyboard();
                 break;
             default:
-                mCurKeyboard = mQwertyKeyboard;
+                mCurKeyboard = keyboardService.getQwertyKeyboard();
                 updateShiftKeyState(attribute);
         }
         // Update the label on the enter key
@@ -92,7 +71,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     public void onFinishInput() {
         super.onFinishInput();
         mComposing.setLength(0);
-        mCurKeyboard = mQwertyKeyboard;
+        mCurKeyboard = keyboardService.getQwertyKeyboard();
         if (mInputView != null)
             mInputView.closing();
     }
@@ -109,10 +88,6 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                // The InputMethodService already takes care of the back
-                // key for us, to dismiss the input method if it is shown.
-                // However, our keyboard could be showing a pop-up window
-                // that back should dismiss, so we first allow it to do that.
                 if (event.getRepeatCount() == 0 && mInputView != null) {
                     if (mInputView.handleBack())
                         return true;
@@ -125,7 +100,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
                 }
                 break;
             case KeyEvent.KEYCODE_ENTER:
-                // Let the underlying text editor always handle these.
+                // Let the text editor always handle these.
                 return false;
             default:
         }
@@ -140,7 +115,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
     }
 
     private void updateShiftKeyState(EditorInfo attr) {
-        if (attr == null || mInputView == null || mQwertyKeyboard != mInputView.getKeyboard())
+        if (attr == null || mInputView == null || keyboardService.getQwertyKeyboard() != mInputView.getKeyboard())
             return;
 
         int caps = 0;
@@ -148,7 +123,7 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         if (ei != null && ei.inputType != InputType.TYPE_NULL)
             caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
         mInputView.setShifted(caps == 1);
-        mCurKeyboard.changeToggleShiftIcon(getResources(), mQwertyKeyboard.isShifted());
+        mCurKeyboard.changeToggleShiftIcon(getResources(), keyboardService.getQwertyKeyboard().isShifted());
     }
 
     private void keyDownUp(int keyEventCode) {
@@ -243,19 +218,19 @@ public class SlideKeyboard extends InputMethodService implements KeyboardView.On
         if (mInputView.getSwipedDirection() == Keys.DIRECTION_DOWN)
             mInputView.setShifted(false);
         if (mInputView.getSwipedDirection() == Keys.NO_DIRECTION) {
-            if (mInputView.getKeyboard() == mSymbolsKeyboard)
-                setLatinKeyboard(mQwertyKeyboard);
+            if (mInputView.getKeyboard() == keyboardService.getSymbolKeyboard())
+                setLatinKeyboard(keyboardService.getQwertyKeyboard());
             else
-                setLatinKeyboard(mSymbolsKeyboard);
+                setLatinKeyboard(keyboardService.getSymbolKeyboard());
         }
-        mCurKeyboard.changeToggleShiftIcon(getResources(), mQwertyKeyboard.isShifted());
+        mCurKeyboard.changeToggleShiftIcon(getResources(), keyboardService.getQwertyKeyboard().isShifted());
     }
 
     private void handleEmojiKey() {
-        if (mInputView.getKeyboard() == mEmojiKeyboard)
-            setLatinKeyboard(mQwertyKeyboard);
+        if (mInputView.getKeyboard() == keyboardService.getEmojiKeyboard())
+            setLatinKeyboard(keyboardService.getQwertyKeyboard());
         else
-            setLatinKeyboard(mEmojiKeyboard);
+            setLatinKeyboard(keyboardService.getEmojiKeyboard());
     }
 
     private void handleClose() {
